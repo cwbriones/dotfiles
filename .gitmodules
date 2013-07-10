@@ -1,0 +1,71 @@
+[submodule "clangcomplete"]
+    path = bundle/clang_complete
+    url = https://github.com/Rip-Rip/clang_complete.git
+
+[submodule "colo-github"]
+    path = bundle/colo-github
+    url = https://github.com/endel/vim-github-colorscheme.git
+
+[submodule "colo-gruvbox"]
+    path = bundle/colo-gruvbox
+    url = https://github.com/morhetz/gruvbox.git
+
+[submodule "colo-kolor"]
+    path = bundle/colo-kolor
+    url = https://github.com/zeis/vim-kolor
+
+[submodule "colo-lucius"]
+    path = bundle/colo-lucius
+    url = https://github.com/jonathanfilip/vim-lucius
+
+[submodule "colo-monokai"]
+    path = bundle/colo-monokai
+    url = https://github.com/sickill/vim-monokai
+
+[submodule "fugitive"]
+    path = bundle/fugitive
+    url = https://github.com/tpope/vim-fugitive
+
+[submodule "jedi"]
+    path = bundle/jedi 
+    url = https://github.com/davidhalter/jedi-vim
+
+[submodule "mw-utils"]
+    path = bundle/mw-utils
+    url = https://github.com/MarcWeber/vim-addon-mw-utils
+
+[submodule "nerdtree"]
+    path = bundle/nerdtree
+    url = https://github.com/scrooloose/nerdtree
+
+[submodule "l9"]
+    path = bundle/l9
+    url = https://bitbucket.org/ns9tks/vim-l9
+
+[submodule "FuzzyFinder"]
+    path = bundle/FuzzyFinder
+    url = https://github.com/vim-scripts/FuzzyFinder
+
+[submodule "supertab"]
+    path = bundle/supertab
+    url = https://github.com/ervandew/supertab
+
+[submodule "snipmate"]
+    path = bundle/snipmate
+    url = https://github.com/garbas/snipmate
+
+[submodule "tcomment"]
+    path = bundle/tcomment
+    url = https://github.com/vim-scipts/tComment
+
+[submodule "tasklist"]
+    path = bundle/tasklist
+    url = https://github.com/vim-scipts/TaskList.vim
+
+[submodule "tlib"]
+    path = bundle/tlib
+    url = https://github.com/vim-scripts/tlib
+
+[submodule "syntastic"]
+    path = bundle/syntastic
+    url = https://github.com/scrooloose/syntastic
