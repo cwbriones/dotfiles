@@ -38,10 +38,6 @@
     path = bundle/nerdtree
     url = https://github.com/scrooloose/nerdtree
 
-[submodule "l9"]
-    path = bundle/l9
-    url = https://bitbucket.org/ns9tks/vim-l9
-
 [submodule "FuzzyFinder"]
     path = bundle/FuzzyFinder
     url = https://github.com/vim-scripts/FuzzyFinder
@@ -69,3 +65,7 @@
 [submodule "syntastic"]
     path = bundle/syntastic
     url = https://github.com/scrooloose/syntastic
+
+[submodule "snippets"]
+    path = bundle/snippets
+    url = https://github.com/honza/vim-snippets
