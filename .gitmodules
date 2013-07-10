@@ -48,7 +48,7 @@
 
 [submodule "snipmate"]
     path = bundle/snipmate
-    url = https://github.com/garbas/snipmate
+    url = https://github.com/garbas/vim-snipmate
 
 [submodule "tcomment"]
     path = bundle/tcomment
@@ -69,6 +69,7 @@
 [submodule "snippets"]
     path = bundle/snippets
     url = https://github.com/honza/vim-snippets
+
 [submodule "bundle/l9"]
 	path = bundle/l9
 	url = https://github.com/vim-scripts/L9
