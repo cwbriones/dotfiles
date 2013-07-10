@@ -84,12 +84,7 @@ au FileType python set foldmethod=indent
 au FileType python set omnifunc=pythoncomplete#Complete
 au FileType python set completefunc=pythoncomplete#Complete
 " Allow for execution directly from the editor by <F10>
-au FileType python noremap <buffer> Shift+<F11> :w<CR> :! python % <CR>
-au FileType ruby noremap <buffer> Shift+<F11> : w<CR> :! ruby % <CR>
+au FileType python noremap <buffer> <F8> :w<CR> :! python % <CR>
+au FileType ruby noremap <buffer> <F8> : w<CR> :! ruby % <CR>
 
 set rtp+=/usr/local/go/misc/vim
-
-if !has('gui_running')
-    let g:solarized_termcolors=&t_Co
-    let g:solarized_termtrans=1
-endif
