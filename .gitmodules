@@ -69,3 +69,6 @@
 [submodule "snippets"]
     path = bundle/snippets
     url = https://github.com/honza/vim-snippets
+[submodule "bundle/l9"]
+	path = bundle/l9
+	url = https://github.com/vim-scripts/L9
