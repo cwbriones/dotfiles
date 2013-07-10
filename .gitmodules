@@ -52,11 +52,11 @@
 
 [submodule "tcomment"]
     path = bundle/tcomment
-    url = https://github.com/vim-scipts/tComment
+    url = https://github.com/vim-scripts/tComment
 
 [submodule "tasklist"]
     path = bundle/tasklist
-    url = https://github.com/vim-scipts/TaskList.vim
+    url = https://github.com/vim-scripts/TaskList.vim
 
 [submodule "tlib"]
     path = bundle/tlib
