@@ -45,13 +45,13 @@ if has("win32")
 else
     set guifont=Inconsolata:h11
 endif
+set bg=dark
 
 if has("gui_running")
     colorscheme gruvbox
 else
     colorscheme molokai
 endif
-set bg=dark
 
 " Tab and indentation settings
 set tabstop=4
@@ -93,8 +93,8 @@ noremap <c-j> <c-w>j
 noremap <c-k> <c-w>k
 noremap <c-l> <c-w>j
 noremap <c-h> <c-w>h
-noremap <F2> :Errors <CR>
-noremap <F3> :NERDTreeToggle
+noremap <F2> :Errors<CR>
+noremap <F3> :NERDTreeToggle<CR>
 " I have git for this.
 set nobackup
 set noswapfile
