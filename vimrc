@@ -26,7 +26,6 @@ let g:jedi#show_function_definition=0
 "syntastic error checker settings
 let g:syntastic_error_symbol='!!'
 let g:syntastic_style_error_symbol='S!'
-
 let g:syntastic_warning_symbol='>>'
 let g:syntastic_style_warning_symbol='S>'
 
@@ -34,15 +33,25 @@ let g:syntastic_style_warning_symbol='S>'
 " Appearance
 syntax on
 filetype on
+set hidden
 set foldmethod=syntax
 set foldlevel=99
 set colorcolumn=80
 set t_Co=256
 set ruler
 set number
-set guifont=Inconsolata\ 11
+if has("win32")
+    set guifont=Consolas:h11
+else
+    set guifont=Inconsolata:h11
+endif
+
+if has("gui_running")
+    colorscheme gruvbox
+else
+    colorscheme molokai
+endif
 set bg=dark
-colo gruvbox
 
 " Tab and indentation settings
 set tabstop=4
@@ -53,15 +62,31 @@ set autoindent
 set smarttab
 set smartindent
 
+" Allow backspaces in insert mode
+set backspace=indent,eol,start
+
 " Search settings
 set incsearch
 set hlsearch
 set smartcase
 set ignorecase
+set history=1000 " Remember lots
+set undolevels=1000
+
+" I have git for this.
+set nobackup
+set noswapfile
+
+set wildignore=*.swp,*.back,*.pyc,*.class
+set title " change the title of the window
+set visualbell " don't beep
+set noerrorbells " don't beep
 
 " Key mappings
 let mapleader = ","
 map <leader>td <Plug>TaskList
+nmap <silent> <leader>ev :e $MYVIMRC<CR>
+nmap <silent> <leader>sv :so $MYVIMRC<CR>
 nnoremap <leader>w <C-w>v<C-w>l
 noremap % v%
 noremap <c-j> <c-w>j
@@ -69,7 +94,10 @@ noremap <c-k> <c-w>k
 noremap <c-l> <c-w>j
 noremap <c-h> <c-w>h
 noremap <F2> :Errors <CR>
-noremap <F3> :NERDTreeToggle <CR>
+noremap <F3> :NERDTreeToggle
+" I have git for this.
+set nobackup
+set noswapfile
 inoremap jj <ESC>
 
 " Put gvim into fullscreen
