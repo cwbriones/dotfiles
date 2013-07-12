@@ -2,6 +2,10 @@
     path = bundle/clang_complete
     url = https://github.com/Rip-Rip/clang_complete.git
 
+[submodule "colo-blackboard"]
+    path = bundle/colo-blackboard
+	url = https://github.com/vim-scripts/blackboard.vim
+
 [submodule "colo-github"]
     path = bundle/colo-github
     url = https://github.com/endel/vim-github-colorscheme.git
@@ -73,6 +77,3 @@
 [submodule "bundle/l9"]
 	path = bundle/l9
 	url = https://github.com/vim-scripts/L9
-[submodule "colo-blackboard"]
-	path = colo-blackboard
-	url = https://github.com/vim-scripts/blackboard.vim
