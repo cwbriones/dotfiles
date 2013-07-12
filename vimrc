@@ -13,6 +13,10 @@ let g:clang_auto_select=1
 let g:clang_complete_auto=1
 " Show clang errors in the quickfix window
 let g:clang_complete_copen=1
+" Snippets settings for clang
+let g:clang_snippets=1
+" Jump to next snippet
+imap <c-j> <ESC> <TAB>
 "Complete options (disable preview scratch window)
 set completeopt=menuone,longest
 ",options
@@ -108,7 +112,7 @@ map <silent> <F11>
 \   :call system("wmctrl -ir " . v:windowid . " -b toggle,fullscreen")<CR>
 
 " let g:SuperTabDefaultCompletionType = "context"
-let g:SuperTabDefaultCompletionType = "<C-X><C-U>"
+let g:SuperTabDefaultCompletionType = "context"
 " File specific mappings
 filetype plugin indent on
 au FileType python set foldmethod=indent
