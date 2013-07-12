@@ -40,14 +40,17 @@ set colorcolumn=80
 set t_Co=256
 set ruler
 set number
-if has("win32")
-    set guifont=Consolas:h11
-else
-    set guifont=Inconsolata:h11
-endif
 set bg=dark
 
+" gui-specific font and colorscheme settings
 if has("gui_running")
+    if has("win32")
+        set guifont=Consolas:h11
+    elseif has("Mac")
+        set guifont=Inconsolata:h13
+    else
+        set guifont=Inconsolata\ 11
+    endif
     colorscheme gruvbox
 else
     colorscheme molokai
