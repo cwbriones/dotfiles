@@ -1,31 +1,7 @@
 execute pathogen#infect()
 execute pathogen#helptags()
 " Automatically open NERDTree if no files specified
-" autocmd vimenter * if !argc() | NERDTree | endif
-
-" clang_complete settings
-let g:clang_user_options='|| exit 0'
-let g:clang_auto_user_options='path, .clang_complete'
-let g:clang_use_library=1
-let g:clang_library_path='/usr/lib/'
-let g:clang_auto_select=1
-" Disables auto popup, use <Tab> to autocomplete
-let g:clang_complete_auto=1
-" Show clang errors in the quickfix window
-let g:clang_complete_copen=1
-" Snippets settings for clang
-let g:clang_snippets=1
-" Jump to next snippet
-imap <c-j> <ESC> <TAB>
-"Complete options (disable preview scratch window)
-set completeopt=menuone,longest
-",options
-" Limit popup menu height
-let pumheight=15
-
-"vim-jedi Settings
-let g:jedi#auto_vim_configuration=1
-let g:jedi#show_function_definition=0
+autocmd vimenter * if !argc() | NERDTree | endif
 
 "syntastic error checker settings
 let g:syntastic_error_symbol='!!'
@@ -55,7 +31,7 @@ if has("gui_running")
     else
         set guifont=Inconsolata\ 11
     endif
-    colorscheme gruvbox
+    colorscheme molokai
 else
     colorscheme molokai
 endif
@@ -96,12 +72,11 @@ nmap <silent> <leader>ev :e $MYVIMRC<CR>
 nmap <silent> <leader>sv :so $MYVIMRC<CR>
 nnoremap <leader>w <C-w>v<C-w>l
 noremap % v%
-noremap <c-j> <c-w>j
-noremap <c-k> <c-w>k
-noremap <c-l> <c-w>j
-noremap <c-h> <c-w>h
 noremap <F2> :Errors<CR>
 noremap <F3> :NERDTreeToggle<CR>
+" Clear recent search
+noremap <F4> :set hlsearch!<CR>
+" <F8> is mapped to 'run interpreter'
 " I have git for this.
 set nobackup
 set noswapfile
@@ -110,6 +85,30 @@ inoremap jj <ESC>
 " Put gvim into fullscreen
 map <silent> <F11>
 \   :call system("wmctrl -ir " . v:windowid . " -b toggle,fullscreen")<CR>
+
+" clang_complete settings
+let g:clang_user_options='|| exit 0'
+let g:clang_auto_user_options='path, .clang_complete'
+let g:clang_use_library=1
+let g:clang_library_path='/usr/lib/'
+let g:clang_auto_select=2
+" Disables auto popup, use <Tab> to autocomplete
+let g:clang_complete_auto=1
+" Show clang errors in the quickfix window
+let g:clang_complete_copen=1
+" Snippets settings for clang
+let g:clang_snippets=1
+" Jump to next snippet
+imap <c-j> <ESC><TAB>di
+"Complete options (disable preview scratch window)
+set completeopt=menuone,longest
+",options
+" Limit popup menu height
+let pumheight=15
+
+"vim-jedi Settings
+let g:jedi#auto_vim_configuration=1
+let g:jedi#show_function_definition=0
 
 " let g:SuperTabDefaultCompletionType = "context"
 let g:SuperTabDefaultCompletionType = "context"
