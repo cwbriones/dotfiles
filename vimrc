@@ -1,7 +1,24 @@
 execute pathogen#infect()
 execute pathogen#helptags()
+
+" Custom Function Definitions
+function! ToggleToolbars()
+    if &guioptions == 'aegimrLtT'
+        set guioptions=aci
+    else
+        set guioptions=aegimrLtT
+        set lines=50 columns=100
+    endif
+endfunction
+
+function! ToggleFullScreen()
+    call ToggleToolbars()
+    call system("wmctrl -i -r ".v:windowid." -b toggle,fullscreen")
+    redraw
+endfunction
+
 " Automatically open NERDTree if no files specified
-autocmd vimenter * if !argc() | NERDTree | endif
+" autocmd vimenter * if !argc() | NERDTree | endif
 
 "syntastic error checker settings
 let g:syntastic_error_symbol='!!'
@@ -21,6 +38,8 @@ set t_Co=256
 set ruler
 set number
 set bg=dark
+set lines=50
+set columns=100
 
 " gui-specific font and colorscheme settings
 if has("gui_running")
@@ -32,6 +51,9 @@ if has("gui_running")
         set guifont=Inconsolata\ 11
     endif
     colorscheme molokai
+    set guioptions=aegimrLtT
+    "Put gvim into fullscreen"
+    map <silent> <F11> :call ToggleFullScreen()<CR>
 else
     colorscheme molokai
 endif
@@ -72,19 +94,25 @@ nmap <silent> <leader>ev :e $MYVIMRC<CR>
 nmap <silent> <leader>sv :so $MYVIMRC<CR>
 nnoremap <leader>w <C-w>v<C-w>l
 noremap % v%
+" <F1> is mapped to vim help by the OS"
 noremap <F2> :Errors<CR>
 noremap <F3> :NERDTreeToggle<CR>
+noremap <F4> :TlistToggle<CR>
 " Clear recent search
-noremap <F4> :set hlsearch!<CR>
+noremap <F5> :set hlsearch!<CR>
 " <F8> is mapped to 'run interpreter'
+noremap <F9> :!ctags -R --fields=+iaS --c++-kinds=+vfp --extra=+q . --language-force=C++<CR>
+inoremap jj <ESC>
 " I have git for this.
 set nobackup
 set noswapfile
-inoremap jj <ESC>
 
-" Put gvim into fullscreen
-map <silent> <F11>
-\   :call system("wmctrl -ir " . v:windowid . " -b toggle,fullscreen")<CR>
+" taglist settings
+let Tlist_Ctags_Cmd='/usr/bin/ctags'
+let Tlist_Win_Width=50
+let Tlist_Exit_Only_Window = 1
+" let Tlist_Show_One_File = 1
+" let Tlist_Display_Prototype=1
 
 " clang_complete settings
 let g:clang_user_options='|| exit 0'
@@ -96,11 +124,12 @@ let g:clang_auto_select=2
 let g:clang_complete_auto=1
 " Show clang errors in the quickfix window
 let g:clang_complete_copen=1
+" Close preview after complettion
+let g:clang_close_preview=1
 " Snippets settings for clang
 let g:clang_snippets=1
 " Jump to next snippet
 imap <c-j> <ESC><TAB>di
-"Complete options (disable preview scratch window)
 set completeopt=menuone,longest
 ",options
 " Limit popup menu height
