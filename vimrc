@@ -84,8 +84,8 @@ set noswapfile
 
 set wildignore=*.swp,*.back,*.pyc,*.class
 set title " change the title of the window
-set visualbell " don't beep
-set noerrorbells " don't beep
+" set visualbell " don't beep
+" set noerrorbells " don't beep
 
 " Key mappings
 let mapleader = ","
@@ -93,7 +93,6 @@ map <leader>td <Plug>TaskList
 nmap <silent> <leader>ev :e $MYVIMRC<CR>
 nmap <silent> <leader>sv :so $MYVIMRC<CR>
 nnoremap <leader>w <C-w>v<C-w>l
-noremap % v%
 " <F1> is mapped to vim help by the OS"
 noremap <F2> :Errors<CR>
 noremap <F3> :NERDTreeToggle<CR>
