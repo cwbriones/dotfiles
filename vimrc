@@ -21,6 +21,8 @@ endfunction
 " autocmd vimenter * if !argc() | NERDTree | endif
 
 "syntastic error checker settings
+let g:syntastic_cpp_check_header=1
+let g:syntastic_cpp_compiler_options='-std=c++11'
 let g:syntastic_error_symbol='!!'
 let g:syntastic_style_error_symbol='S!'
 let g:syntastic_warning_symbol='>>'
@@ -38,9 +40,8 @@ set t_Co=256
 set ruler
 set number
 set bg=dark
-set lines=50
-set columns=100
-
+" For use with airline status bar
+set laststatus=2
 " gui-specific font and colorscheme settings
 if has("gui_running")
     if has("win32")
@@ -48,7 +49,8 @@ if has("gui_running")
     elseif has("Mac")
         set guifont=Inconsolata:h13
     else
-        set guifont=Inconsolata\ 11
+        " set guifont=Inconsolata\ 12
+        set guifont=Terminus\ 12
     endif
     colorscheme molokai
     set guioptions=aegimrLtT
@@ -135,9 +137,14 @@ set completeopt=menuone,longest
 let pumheight=15
 
 "vim-jedi Settings
+let g:jedi#popup_select_first=1
 let g:jedi#auto_vim_configuration=1
-let g:jedi#show_function_definition=0
-
+let g:jedi#show_function_definition=1
+let g:jedi#goto_command="<leader>g"
+let g:jedi#get_definition_command="<leader>d"
+let g:jedi#pydoc="K"
+let g:jedi#rename_command="<leader>r"
+"
 " let g:SuperTabDefaultCompletionType = "context"
 let g:SuperTabDefaultCompletionType = "context"
 " File specific mappings
@@ -145,7 +152,7 @@ filetype plugin indent on
 au FileType python set foldmethod=indent
 au FileType python set omnifunc=pythoncomplete#Complete
 au FileType python set completefunc=pythoncomplete#Complete
-" Allow for execution directly from the editor by <F10>
+" Allow for execution directly from the editor by <F8>
 au FileType python noremap <buffer> <F8> :w<CR> :! python % <CR>
 au FileType ruby noremap <buffer> <F8> : w<CR> :! ruby % <CR>
 
