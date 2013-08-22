@@ -1,7 +1,3 @@
-[submodule "clangcomplete"]
-    path = bundle/clang_complete
-    url = https://github.com/Rip-Rip/clang_complete.git
-
 [submodule "colo-blackboard"]
     path = bundle/colo-blackboard
 	url = https://github.com/vim-scripts/blackboard.vim
