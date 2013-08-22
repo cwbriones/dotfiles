@@ -116,25 +116,25 @@ let Tlist_Exit_Only_Window = 1
 " let Tlist_Display_Prototype=1
 
 " clang_complete settings
-let g:clang_user_options='|| exit 0'
-let g:clang_auto_user_options='path, .clang_complete'
-let g:clang_use_library=1
-let g:clang_library_path='/usr/lib/'
-let g:clang_auto_select=2
-" Disables auto popup, use <Tab> to autocomplete
-let g:clang_complete_auto=1
-" Show clang errors in the quickfix window
-let g:clang_complete_copen=1
-" Close preview after complettion
-let g:clang_close_preview=1
-" Snippets settings for clang
-let g:clang_snippets=1
-" Jump to next snippet
-imap <c-j> <ESC><TAB>di
-set completeopt=menuone,longest
-",options
-" Limit popup menu height
-let pumheight=15
+" let g:clang_user_options='|| exit 0'
+" let g:clang_auto_user_options='path, .clang_complete'
+" let g:clang_use_library=1
+" let g:clang_library_path='/usr/lib/'
+" let g:clang_auto_select=2
+" " Disables auto popup, use <Tab> to autocomplete
+" let g:clang_complete_auto=1
+" " Show clang errors in the quickfix window
+" let g:clang_complete_copen=1
+" " Close preview after complettion
+" let g:clang_close_preview=1
+" " Snippets settings for clang
+" let g:clang_snippets=1
+" " Jump to next snippet
+" imap <c-j> <ESC><TAB>di
+" set completeopt=menuone,longest
+" ",options
+" " Limit popup menu height
+" let pumheight=15
 
 "vim-jedi Settings
 let g:jedi#popup_select_first=1
