@@ -1,4 +1,5 @@
 execute pathogen#infect()
+
 execute pathogen#helptags()
 
 " Custom Function Definitions
@@ -7,7 +8,8 @@ function! ToggleToolbars()
         set guioptions=aci
     else
         set guioptions=aegimrLtT
-        set lines=50 columns=100
+        set lines=60 
+        set columns=80
     endif
 endfunction
 
@@ -15,6 +17,14 @@ function! ToggleFullScreen()
     call ToggleToolbars()
     call system("wmctrl -i -r ".v:windowid." -b toggle,fullscreen")
     redraw
+endfunction
+
+function! ToggleColorColumn()
+    if &colorcolumn != 80
+        set colorcolumn=80
+    else
+        set colorcolumn=0
+    endif
 endfunction
 
 " Automatically open NERDTree if no files specified
@@ -35,7 +45,7 @@ filetype on
 set hidden
 set foldmethod=syntax
 set foldlevel=99
-set colorcolumn=80
+noremap <F6> :call ToggleColorColumn()<CR>
 set t_Co=256
 set ruler
 set number
@@ -44,27 +54,33 @@ set bg=dark
 set laststatus=2
 " gui-specific font and colorscheme settings
 if has("gui_running")
+    set lines=60 
+    set columns=80
+
     if has("win32")
         set guifont=Consolas:h11
     elseif has("Mac")
         set guifont=Inconsolata:h13
     else
-        " set guifont=Inconsolata\ 12
-        set guifont=Terminus\ 12
+        set guifont=Inconsolata\ \Bold\ 12
     endif
-    colorscheme molokai
+    colorscheme gruvbox
     set guioptions=aegimrLtT
     "Put gvim into fullscreen"
     map <silent> <F11> :call ToggleFullScreen()<CR>
 else
-    colorscheme molokai
+    colorscheme mustang
 endif
 
-" Tab and indentation settings
+" Global tab and indentation settings
+" How many spaces a tab counts for
 set tabstop=4
+" how many columns to use when a tab is inserted
 set softtabstop=4
+" how many columns are indented with >> and <<, auto indent
 set shiftwidth=4
 set expandtab
+
 set autoindent
 set smarttab
 set smartindent
@@ -101,6 +117,7 @@ noremap <F3> :NERDTreeToggle<CR>
 noremap <F4> :TlistToggle<CR>
 " Clear recent search
 noremap <F5> :set hlsearch!<CR>
+" <F6> is mapped to 'show/hide color column'
 " <F8> is mapped to 'run interpreter'
 noremap <F9> :!ctags -R --fields=+iaS --c++-kinds=+vfp --extra=+q . --language-force=C++<CR>
 inoremap jj <ESC>
@@ -115,45 +132,23 @@ let Tlist_Exit_Only_Window = 1
 " let Tlist_Show_One_File = 1
 " let Tlist_Display_Prototype=1
 
-" clang_complete settings
-" let g:clang_user_options='|| exit 0'
-" let g:clang_auto_user_options='path, .clang_complete'
-" let g:clang_use_library=1
-" let g:clang_library_path='/usr/lib/'
-" let g:clang_auto_select=2
-" " Disables auto popup, use <Tab> to autocomplete
-" let g:clang_complete_auto=1
-" " Show clang errors in the quickfix window
-" let g:clang_complete_copen=1
-" " Close preview after complettion
-" let g:clang_close_preview=1
-" " Snippets settings for clang
-" let g:clang_snippets=1
-" " Jump to next snippet
-" imap <c-j> <ESC><TAB>di
-" set completeopt=menuone,longest
-" ",options
-" " Limit popup menu height
-" let pumheight=15
+imap <C-J> <esc>a<Plug>snipMateNextOrTrigger
+smap <C-J> <Plug>snipMateNextOrTrigger
 
-"vim-jedi Settings
-let g:jedi#popup_select_first=1
-let g:jedi#auto_vim_configuration=1
-let g:jedi#show_function_definition=1
-let g:jedi#goto_command="<leader>g"
-let g:jedi#get_definition_command="<leader>d"
-let g:jedi#pydoc="K"
-let g:jedi#rename_command="<leader>r"
-"
-" let g:SuperTabDefaultCompletionType = "context"
 let g:SuperTabDefaultCompletionType = "context"
-" File specific mappings
-filetype plugin indent on
-au FileType python set foldmethod=indent
-au FileType python set omnifunc=pythoncomplete#Complete
-au FileType python set completefunc=pythoncomplete#Complete
-" Allow for execution directly from the editor by <F8>
-au FileType python noremap <buffer> <F8> :w<CR> :! python % <CR>
-au FileType ruby noremap <buffer> <F8> : w<CR> :! ruby % <CR>
+"YCM Settings"
+let g:ycm_filetype_whitelist = { 'cpp' : 1, 'python' : 1}
+let g:ycm_global_ycm_extra_conf = '~'
 
-set rtp+=/usr/local/go/misc/vim
+let g:ycm_confirm_extra_conf = 0
+let g:ycm_extra_conf_globlist = ['~', '.', '../']
+let g:ycm_add_preview_to_completeopt=1
+set completeopt=menuone,preview
+let pumheight=15
+
+" File specific mappings, found in ~/.vim/ftplugin
+filetype plugin on
+" Enable language specific indentation settings
+filetype plugin indent on
+" C++11 Syntax
+au BufNewFile,BufRead *.cpp set syntax=cpp11
