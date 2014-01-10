@@ -69,7 +69,7 @@ if has("gui_running")
     "Put gvim into fullscreen"
     map <silent> <F11> :call ToggleFullScreen()<CR>
 else
-    colorscheme mustang
+    colorscheme gruvbox
 endif
 
 " Global tab and indentation settings
@@ -150,5 +150,3 @@ let pumheight=15
 filetype plugin on
 " Enable language specific indentation settings
 filetype plugin indent on
-" C++11 Syntax
-au BufNewFile,BufRead *.cpp set syntax=cpp11

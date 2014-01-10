@@ -1,84 +1,12 @@
-[submodule "colo-blackboard"]
-    path = bundle/colo-blackboard
-	url = https://github.com/vim-scripts/blackboard.vim
-
-[submodule "colo-github"]
-    path = bundle/colo-github
-    url = https://github.com/endel/vim-github-colorscheme.git
-
-[submodule "colo-gruvbox"]
-    path = bundle/colo-gruvbox
-    url = https://github.com/morhetz/gruvbox.git
-
-[submodule "colo-kolor"]
-    path = bundle/colo-kolor
-    url = https://github.com/zeis/vim-kolor
-
-[submodule "colo-lucius"]
-    path = bundle/colo-lucius
-    url = https://github.com/jonathanfilip/vim-lucius
-
-[submodule "colo-monokai"]
-    path = bundle/colo-monokai
-    url = https://github.com/sickill/vim-monokai
-
-[submodule "fugitive"]
-    path = bundle/fugitive
-    url = https://github.com/tpope/vim-fugitive
-
-[submodule "jedi"]
-    path = bundle/jedi 
-    url = https://github.com/davidhalter/jedi-vim
-
-[submodule "mw-utils"]
-    path = bundle/mw-utils
-    url = https://github.com/MarcWeber/vim-addon-mw-utils
-
-[submodule "nerdtree"]
-    path = bundle/nerdtree
-    url = https://github.com/scrooloose/nerdtree
-
-[submodule "FuzzyFinder"]
-    path = bundle/FuzzyFinder
-    url = https://github.com/vim-scripts/FuzzyFinder
-
-[submodule "supertab"]
-    path = bundle/supertab
-    url = https://github.com/ervandew/supertab
-
-[submodule "snipmate"]
-    path = bundle/snipmate
-    url = https://github.com/garbas/vim-snipmate
-
-[submodule "tcomment"]
-    path = bundle/tcomment
-    url = https://github.com/tomtom/tcomment_vim
-
-[submodule "tasklist"]
-    path = bundle/tasklist
-    url = https://github.com/vim-scripts/TaskList.vim
-
-[submodule "tlib"]
-    path = bundle/tlib
-    url = https://github.com/tomtom/tlib_vim
-
-[submodule "syntastic"]
-    path = bundle/syntastic
-    url = https://github.com/scrooloose/syntastic
-
-[submodule "snippets"]
-    path = bundle/snippets
-    url = https://github.com/honza/vim-snippets
-
-[submodule "bundle/l9"]
-	path = bundle/l9
-	url = https://github.com/vim-scripts/L9
-[submodule "bundle/taglist"]
-	path = bundle/taglist
-	url = https://github.com/vim-scripts/taglist.vim
-[submodule "bundle/airline"]
-	path = bundle/airline
-	url = https://github.com/bling/vim-airline
-[submodule "bundle/youcompleteme"]
-	path = bundle/youcompleteme
-	url = https://github.com/Valloric/YouCompleteMe
+[submodule "bundle/colo-badwolf"]
+	path = bundle/colo-badwolf
+	url = https://github.com/sjl/badwolf.git
+[submodule "bundle/colo-railscasts"]
+	path = bundle/colo-railscasts
+	url = https://github.com/jpo/vim-railscasts-theme.git
+[submodule "bundle/colo-wombat"]
+	path = bundle/colo-wombat
+	url = https://github.com/vim-scripts/Wombat.git
+[submodule "bundle/vim-rails"]
+	path = bundle/vim-rails
+	url = https://github.com/tpope/vim-rails.git
