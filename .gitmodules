@@ -1,12 +1,48 @@
+[submodule "FuzzyFinder"]
+	url = https://github.com/vim-scripts/FuzzyFinder.git
+[submodule "colo-github"]
+	url = https://github.com/endel/vim-github-colorscheme.git
+[submodule "colo-gruvbox"]
+	url = https://github.com/morhetz/gruvbox.git
+[submodule "colo-kolor"]
+	url = https://github.com/zeis/vim-kolor.git
+[submodule "colo-lucius"]
+	url = https://github.com/jonathanfilip/vim-lucius.git
+[submodule "colo-monokai"]
+	url = https://github.com/sickill/vim-monokai.git
+[submodule "fugitive"]
+	url = https://github.com/tpope/vim-fugitive.git
+[submodule "mw-utils"]
+	url = https://github.com/MarcWeber/vim-addon-mw-utils.git
+[submodule "nerdtree"]
+	url = https://github.com/scrooloose/nerdtree.git
+[submodule "snippets"]
+	url = https://github.com/honza/vim-snippets.git
+[submodule "syntastic"]
+	url = https://github.com/scrooloose/syntastic.git
+[submodule "tasklist"]
+	url = https://github.com/vim-scripts/TaskList.vim.git
+[submodule "tcomment"]
+	url = https://github.com/tomtom/tcomment_vim.git
+[submodule "tlib"]
+	url = https://github.asklistcom/tomtom/tlib_vim.git
+[submodule "bundle/l9"]
+	url = https://github.com/vim-scripts/L9.git
+[submodule "supertab"]
+	url = https://github.com/ervandew/supertab.git
+[submodule "snipmate"]
+	url = https://github.com/garbas/vim-snipmate.git
+[submodule "bundle/taglist"]
+	url = https://github.com/vim-scripts/taglist.vim.git
+[submodule "bundle/airline"]
+	url = https://github.com/bling/vim-airline.git
+[submodule "bundle/youcompleteme"]
+	url = https://github.com/Valloric/YouCompleteMe.git
 [submodule "bundle/colo-badwolf"]
-	path = bundle/colo-badwolf
 	url = https://github.com/sjl/badwolf.git
 [submodule "bundle/colo-railscasts"]
-	path = bundle/colo-railscasts
 	url = https://github.com/jpo/vim-railscasts-theme.git
 [submodule "bundle/colo-wombat"]
-	path = bundle/colo-wombat
 	url = https://github.com/vim-scripts/Wombat.git
 [submodule "bundle/vim-rails"]
-	path = bundle/vim-rails
-	url = https://github.com/tpope/vim-rails.git
+    url = https://github.com/tpope/vim-rails.git
