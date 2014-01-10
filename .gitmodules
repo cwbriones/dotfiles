@@ -42,7 +42,7 @@
 	url = https://github.com/tomtom/tcomment_vim.git
 [submodule "tlib"]
     path = bundle/tlib
-	url = https://github.asklistcom/tomtom/tlib_vim.git
+	url = https://github.com/tomtom/tlib_vim.git
 [submodule "bundle/l9"]
     path = bundle/l9
 	url = https://github.com/vim-scripts/L9.git
