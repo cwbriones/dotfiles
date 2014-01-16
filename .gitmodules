@@ -73,3 +73,6 @@
 [submodule "bundle/tlib"]
 	path = bundle/tlib
 	url = https://github.com/tomtom/tlib_vim.git
+[submodule "bundle/colo-hybrid"]
+	path = bundle/colo-hybrid
+	url = https://github.com/w0ng/vim-hybrid

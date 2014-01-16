@@ -20,8 +20,8 @@ function! ToggleFullScreen()
 endfunction
 
 function! ToggleColorColumn()
-    if &colorcolumn != 80
-        set colorcolumn=80
+    if &colorcolumn != 81
+        set colorcolumn=81
     else
         set colorcolumn=0
     endif
@@ -69,7 +69,7 @@ if has("gui_running")
     "Put gvim into fullscreen"
     map <silent> <F11> :call ToggleFullScreen()<CR>
 else
-    colorscheme gruvbox
+    colorscheme jellybeans
 endif
 
 " Global tab and indentation settings
