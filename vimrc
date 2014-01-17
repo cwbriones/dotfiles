@@ -46,7 +46,9 @@ set hidden
 set foldmethod=syntax
 set foldlevel=99
 noremap <F6> :call ToggleColorColumn()<CR>
-set t_Co=256
+if $COLORTERM == 'gnome-terminal'
+  set t_Co=256
+endif
 set ruler
 set number
 set bg=dark
@@ -108,6 +110,8 @@ set title " change the title of the window
 " Key mappings
 let mapleader = ","
 map <leader>td <Plug>TaskList
+nmap <silent> <leader>ff :CtrlP<CR>
+nmap <silent> <leader>fb :CtrlPMRU<CR>
 nmap <silent> <leader>ev :e $MYVIMRC<CR>
 nmap <silent> <leader>sv :so $MYVIMRC<CR>
 nnoremap <leader>w <C-w>v<C-w>l

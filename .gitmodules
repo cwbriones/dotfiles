@@ -76,3 +76,9 @@
 [submodule "bundle/colo-hybrid"]
 	path = bundle/colo-hybrid
 	url = https://github.com/w0ng/vim-hybrid
+[submodule "bundle/guicolorscheme"]
+	path = bundle/guicolorscheme
+	url = https://github.com/vim-scripts/guicolorscheme.vim.git
+[submodule "bundle/ctrlp"]
+	path = bundle/ctrlp
+	url = https://github.com/kien/ctrlp.vim.git
