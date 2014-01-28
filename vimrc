@@ -1,7 +1,6 @@
 execute pathogen#infect()
 
 execute pathogen#helptags()
-
 " Custom Function Definitions
 function! ToggleToolbars()
     if &guioptions == 'aegimrLtT'
@@ -19,14 +18,6 @@ function! ToggleFullScreen()
     redraw
 endfunction
 
-function! ToggleColorColumn()
-    if &colorcolumn != 81
-        set colorcolumn=81
-    else
-        set colorcolumn=0
-    endif
-endfunction
-
 " Automatically open NERDTree if no files specified
 " autocmd vimenter * if !argc() | NERDTree | endif
 
@@ -38,14 +29,16 @@ let g:syntastic_style_error_symbol='S!'
 let g:syntastic_warning_symbol='>>'
 let g:syntastic_style_warning_symbol='S>'
 
-" colors: colo molokai, codeschool, mustang, midnight, github
 " Appearance
-syntax on
 filetype on
+" File specific mappings, found in ~/.vim/ftplugin
+filetype plugin on
+" Enable language specific indentation settings
+filetype plugin indent on
+syntax on
 set hidden
 set foldmethod=syntax
 set foldlevel=99
-noremap <F6> :call ToggleColorColumn()<CR>
 if $COLORTERM == 'gnome-terminal'
   set t_Co=256
 endif
@@ -66,13 +59,19 @@ if has("gui_running")
     else
         set guifont=Inconsolata\ \Bold\ 12
     endif
-    colorscheme gruvbox
+    colorscheme codeschool
     set guioptions=aegimrLtT
     "Put gvim into fullscreen"
     map <silent> <F11> :call ToggleFullScreen()<CR>
 else
     colorscheme jellybeans
 endif
+
+" Visual indicator of more than 80 columns changed to red
+highlight ColorColumn ctermbg=red
+highlight ColorColumn guibg=red
+" Highlights the char if it is in column 81
+call matchadd('ColorColumn', '\%81v', 100)
 
 " Global tab and indentation settings
 " How many spaces a tab counts for
@@ -109,7 +108,11 @@ set title " change the title of the window
 
 " Key mappings
 let mapleader = ","
-map <leader>td <Plug>TaskList
+map  <leader>td <Plug>TaskList
+nmap  <leader>a: :Tabularize /:<CR>
+nmap  <leader>a= :Tabularize /=<CR>
+vmap  <leader>a: :Tabularize /:<CR>
+vmap  <leader>a= :Tabularize /=<CR>
 nmap <silent> <leader>ff :CtrlP<CR>
 nmap <silent> <leader>fb :CtrlPMRU<CR>
 nmap <silent> <leader>ev :e $MYVIMRC<CR>
@@ -121,9 +124,7 @@ noremap <F3> :NERDTreeToggle<CR>
 noremap <F4> :TlistToggle<CR>
 " Clear recent search
 noremap <F5> :set hlsearch!<CR>
-" <F6> is mapped to 'show/hide color column'
 " <F8> is mapped to 'run interpreter'
-noremap <F9> :!ctags -R --fields=+iaS --c++-kinds=+vfp --extra=+q . --language-force=C++<CR>
 inoremap jj <ESC>
 " I have git for this.
 set nobackup
@@ -141,7 +142,7 @@ smap <C-J> <Plug>snipMateNextOrTrigger
 
 let g:SuperTabDefaultCompletionType = "context"
 "YCM Settings"
-let g:ycm_filetype_whitelist = { 'cpp' : 1, 'python' : 1}
+let g:ycm_filetype_whitelist = { 'cpp' : 1, 'python' : 1, 'rb' : 1}
 let g:ycm_global_ycm_extra_conf = '~'
 
 let g:ycm_confirm_extra_conf = 0
@@ -150,7 +151,6 @@ let g:ycm_add_preview_to_completeopt=1
 set completeopt=menuone,preview
 let pumheight=15
 
-" File specific mappings, found in ~/.vim/ftplugin
-filetype plugin on
-" Enable language specific indentation settings
-filetype plugin indent on
+let g:EclimCompletionMethod = "omnifunc"
+let g:rubycomplete_buffer_loading = 1
+let g:rubycomplete_rails = 1

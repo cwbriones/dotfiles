@@ -1,0 +1,109 @@
+diff --git a/syntax/python.vim b/syntax/python.vim
+index 1deb60d..a7ddff5 100644
+--- a/syntax/python.vim
++++ b/syntax/python.vim
+@@ -38,14 +41,14 @@
+ "       python_highlight_indent_errors
+ "
+ "    For highlight trailing spaces:
+-"       python_highlight_space_errors
++        let python_highlight_space_errors = 0
+ "
+ "    For highlight doc-tests:
+ "       python_highlight_doctests
+ "
+ "    If you want all possible Python highlighting:
+ "    (This option not override previously set options)
+-"       python_highlight_all
++        let python_highlight_all = 1
+ "
+ "    For fast machines:
+ "       python_slow_sync
+@@ -96,7 +99,7 @@ syn keyword pythonStatement     yield lambda
+ syn keyword pythonStatement with
+ 
+ " Class definitions
+-syn region  pythonClass start="^\s*class" end=")\s*:" contains=pythonClassDef,pythonClassName,pythonSuperclasses
++syn region  pythonClass start="^\s*class" end="\s*:" contains=pythonClassDef,pythonClassName,pythonSuperclasses
+ syn keyword pythonClassDef class contained nextgroup=pythonClassName
+ syn match   pythonClassName     "[a-zA-Z_][a-zA-Z0-9_]*" display contained nextgroup=pythonSuperclasses skipwhite
+ syn region  pythonSuperclasses start="("ms=s+1 end=")"me=e-1 keepend contained contains=pythonSuperclass transparent
+@@ -110,8 +113,12 @@ syn region  pythonFuncParams start="("ms=s+1 end=")"me=e-1 contained transparent
+ syn region  pythonParam start="[a-zA-Z_]" end="\(,\|)\s*:\)" contained contains=pythonParamName,pythonParamDefault,pythonDefaultAssignment transparent nextgroup=pythonParam
+ syn match   pythonParamName "[a-zA-Z_][a-zA-Z0-9_]*" contained nextgroup=pythonDefaultAssignment skipwhite skipnl
+ syn match   pythonDefaultAssignment "=" nextgroup=pythonParamDefault skipwhite contained skipnl
++syn match   pythonParamDefault "=\@<=[^,]*" contained transparent contains=@pythonStringType,@pythonNumberType,@pythonBuiltin,@pythonKeyword
++
++" Function calls
++syn region pythonCall start="(" end=")" contains=pythonCall,pythonCallNamedParam,@pythonStringType,@pythonNumberType,@pythonBuiltin,@pythonKeyword transparent
++syn match  pythonCallNamedParam "\%(\<[a-zA-Z_][a-zA-Z0-9_]*\>\s*\)\%(=[^=]\)\@=" contained
+ 
+-syn match pythonParamDefault "=\@<=[^,]*" contained transparent contains=@pythonStringType,@pythonNumberType,@pythonBuiltin,pythonKeyword
+ 
+ syn keyword pythonRepeat        for while
+ syn keyword pythonConditional   if elif else
+@@ -241,10 +248,11 @@ syn match   pythonBinError      "\<0[bB][01]*[2-9]\d*[lL]\=\>" display
+ 
+ if exists("python_highlight_builtins") && python_highlight_builtins != 0
+   " Builtin functions, types and objects
+-  syn keyword pythonBuiltinObj  True False Ellipsis None NotImplemented self
++  syn keyword pythonBuiltinObj  True False Ellipsis None NotImplemented
+   syn keyword pythonBuiltinObj  __debug__ __doc__ __file__ __name__ __package__
++  syn keyword pythonSelf        self
+ 
+-  syn keyword pythonBuiltinFunc __import__ abs all any apply
++  syn keyword pythonBuiltinFunc __import__ abs all any
+   syn keyword pythonBuiltinFunc basestring bin bool buffer bytearray bytes callable
+   syn keyword pythonBuiltinFunc chr classmethod cmp coerce compile complex
+   syn keyword pythonBuiltinFunc delattr dict dir divmod enumerate eval
+@@ -297,7 +305,8 @@ endif
+ 
+ syn cluster pythonStringType contains=pythonString,pythonUniString,pythonRawString,pythonUniRawString
+ syn cluster pythonNumberType contains=pythonNumber,pythonHexNumber,pythonFloat
+-syn cluster pythonBuiltin    contains=pythonBuiltinObj,pythonBuiltinFunc
++syn cluster pythonBuiltin contains=pythonBuiltinObj,pythonBuiltinFunc,pythonSelf
++syn cluster pythonKeyword contains=pythonRepeat,pythonConditional,pythonPreCondit,pythonException,pythonOperator,pythonAssignment,pythonAssignment,pythonArithmetic,pythonComparison
+ 
+ if version >= 508 || !exists("did_python_syn_inits")
+   if version <= 508
+@@ -308,13 +317,14 @@ if version >= 508 || !exists("did_python_syn_inits")
+   endif
+ 
+   HiLink pythonFuncDef           Statement
+-  HiLink pythonFuncName    Entity
+-  HiLink pythonParamName Test
++  HiLink pythonFuncName          Function
++  HiLink pythonParamName         Type
+   HiLink pythonDefaultAssignment pythonAssignment
+   HiLink pythonParamDefault      Statement
+   HiLink pythonClassDef          Statement
+-  HiLink pythonClassName    Entity
++  HiLink pythonClassName         Function
+   HiLink pythonSuperclass        Entity
++  HiLink pythonCallNamedParam    Type
+ 
+   HiLink pythonStatement         Statement
+   HiLink pythonPreCondit         Statement
+@@ -331,7 +341,8 @@ if version >= 508 || !exists("did_python_syn_inits")
+   HiLink pythonDecorator         Define
+ 
+   HiLink pythonComment           Comment
+-  HiLink pythonDocstring    Comment
++  HiLink pythonDocstring         String
++ "HiLink pythonDocstring         Comment
+   HiLink pythonCoding            Special
+   HiLink pythonRun               Special
+   HiLink pythonTodo              Todo
+@@ -368,8 +379,11 @@ if version >= 508 || !exists("did_python_syn_inits")
+   HiLink pythonHexError          Error
+   HiLink pythonBinError          Error
+ 
+-  HiLink pythonBuiltinObj   Number
+-  HiLink pythonBuiltinFunc  Structure
++  HiLink pythonBuiltinObj        Function
++ "HiLink pythonBuiltinObj        Number
++  HiLink pythonBuiltinFunc       Function
++ "HiLink pythonBuiltinFunc       Structure
++  HiLink pythonSelf              Normal
+ 
+   HiLink pythonExClass           Structure
