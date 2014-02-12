@@ -2,6 +2,13 @@ execute pathogen#infect()
 
 execute pathogen#helptags()
 " Custom Function Definitions
+function! TogglePaste()
+    if &paste == 1
+        set nopaste
+    else
+        set paste
+    endif
+endfunction
 function! ToggleToolbars()
     if &guioptions == 'aegimrLtT'
         set guioptions=aci
@@ -13,8 +20,16 @@ function! ToggleToolbars()
 endfunction
 
 function! ToggleFullScreen()
-    call ToggleToolbars()
-    call system("wmctrl -i -r ".v:windowid." -b toggle,fullscreen")
+    if has("Mac")
+        if &fu == 1
+            set nofu
+        else
+            set fu
+        endif
+    else
+        call ToggleToolbars()
+        call system("wmctrl -i -r ".v:windowid." -b toggle,fullscreen")
+    endif
     redraw
 endfunction
 
@@ -125,6 +140,7 @@ noremap <F4> :TlistToggle<CR>
 " Clear recent search
 noremap <F5> :set hlsearch!<CR>
 " <F8> is mapped to 'run interpreter'
+noremap <F9> :call TogglePaste()<CR>
 inoremap jj <ESC>
 " I have git for this.
 set nobackup
