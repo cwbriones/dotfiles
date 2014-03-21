@@ -9,6 +9,7 @@ function! TogglePaste()
         set paste
     endif
 endfunction
+
 function! ToggleToolbars()
     if &guioptions == 'aegimrLtT'
         set guioptions=aci
@@ -23,6 +24,8 @@ function! ToggleFullScreen()
     if has("Mac")
         if &fu == 1
             set nofu
+            set lines=50 
+            set columns=80
         else
             set fu
         endif
@@ -33,12 +36,39 @@ function! ToggleFullScreen()
     redraw
 endfunction
 
+" call matchadd('ColorColumn', '\%81v', 100)
+function! ToggleColorColumn()
+    if &colorcolumn == 81
+        set colorcolumn=0
+    else
+        set colorcolumn=81
+    endif
+endfunction
+
+" The Silver Searcher
+if executable('ag')
+    " use ag over grep
+    set grepprg=ag\ --nogroup\ --nocolor 
+
+    " Use ag in Ctrl-P for listing files
+    let g:ctrlp_user_command='ag %s -l --nocolor -g ""'
+
+    " ag is fast enough that Ctrl-P doesnt need to cache
+    let g:ctrlp_user_caching=0
+endif
+
+" Bind K to grep word under cursor
+nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
+command! -nargs=+ -complete=file -bar Ag silent! grep! <args>|cwindow|redraw!
+nnoremap \ :Ag<SPACE>
+
 " Automatically open NERDTree if no files specified
 " autocmd vimenter * if !argc() | NERDTree | endif
 
 "syntastic error checker settings
 let g:syntastic_cpp_check_header=1
-let g:syntastic_cpp_compiler_options='-std=c++11'
+let g:syntastic_cpp_compiler = 'g++-4.8'
+let g:syntastic_cpp_compiler_options=' -std=c++11'
 let g:syntastic_error_symbol='!!'
 let g:syntastic_style_error_symbol='S!'
 let g:syntastic_warning_symbol='>>'
@@ -57,9 +87,12 @@ set foldlevel=99
 if $COLORTERM == 'gnome-terminal'
   set t_Co=256
 endif
+set nowrap
 set ruler
 set number
 set bg=dark
+set splitright
+set splitbelow
 " For use with airline status bar
 set laststatus=2
 " gui-specific font and colorscheme settings
@@ -74,7 +107,7 @@ if has("gui_running")
     else
         set guifont=Inconsolata\ \Bold\ 12
     endif
-    colorscheme codeschool
+    colorscheme gruvbox
     set guioptions=aegimrLtT
     "Put gvim into fullscreen"
     map <silent> <F11> :call ToggleFullScreen()<CR>
@@ -85,8 +118,6 @@ endif
 " Visual indicator of more than 80 columns changed to red
 highlight ColorColumn ctermbg=red
 highlight ColorColumn guibg=red
-" Highlights the char if it is in column 81
-call matchadd('ColorColumn', '\%81v', 100)
 
 " Global tab and indentation settings
 " How many spaces a tab counts for
@@ -139,6 +170,7 @@ noremap <F3> :NERDTreeToggle<CR>
 noremap <F4> :TlistToggle<CR>
 " Clear recent search
 noremap <F5> :set hlsearch!<CR>
+noremap <F6> :call ToggleColorColumn()<CR>
 " <F8> is mapped to 'run interpreter'
 noremap <F9> :call TogglePaste()<CR>
 inoremap jj <ESC>
@@ -168,5 +200,5 @@ set completeopt=menuone,preview
 let pumheight=15
 
 let g:EclimCompletionMethod = "omnifunc"
-let g:rubycomplete_buffer_loading = 1
+let g:rubycomplete_buffer_loading = 0
 let g:rubycomplete_rails = 1
