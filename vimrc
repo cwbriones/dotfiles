@@ -38,10 +38,10 @@ endfunction
 
 " call matchadd('ColorColumn', '\%81v', 100)
 function! ToggleColorColumn()
-    if &colorcolumn == 81
+    if &colorcolumn == 101
         set colorcolumn=0
     else
-        set colorcolumn=81
+        set colorcolumn=101
     endif
 endfunction
 
@@ -51,7 +51,7 @@ if executable('ag')
     set grepprg=ag\ --nogroup\ --nocolor 
 
     " Use ag in Ctrl-P for listing files
-    let g:ctrlp_user_command='ag %s -l --nocolor -g ""'
+    let g:ctrlp_user_command='ag -t %s -l --nocolor -g ""'
 
     " ag is fast enough that Ctrl-P doesnt need to cache
     let g:ctrlp_user_caching=0
@@ -68,7 +68,7 @@ nnoremap \ :Ag<SPACE>
 "syntastic error checker settings
 let g:syntastic_cpp_check_header=1
 let g:syntastic_cpp_compiler = 'g++-4.8'
-let g:syntastic_cpp_compiler_options=' -std=c++11'
+let g:syntastic_cpp_compiler_options='-std=c++11'
 let g:syntastic_error_symbol='!!'
 let g:syntastic_style_error_symbol='S!'
 let g:syntastic_warning_symbol='>>'
@@ -163,6 +163,8 @@ nmap <silent> <leader>ff :CtrlP<CR>
 nmap <silent> <leader>fb :CtrlPMRU<CR>
 nmap <silent> <leader>ev :e $MYVIMRC<CR>
 nmap <silent> <leader>sv :so $MYVIMRC<CR>
+nnoremap <leader>f :CtrlP<CR>
+nnoremap <leader>F :CtrlPCurWD<CR>
 nnoremap <leader>w <C-w>v<C-w>l
 " <F1> is mapped to vim help by the OS"
 noremap <F2> :Errors<CR>
@@ -171,7 +173,8 @@ noremap <F4> :TlistToggle<CR>
 " Clear recent search
 noremap <F5> :set hlsearch!<CR>
 noremap <F6> :call ToggleColorColumn()<CR>
-" <F8> is mapped to 'run interpreter'
+" Execute the current file
+noremap <F8> :!./% <CR>
 noremap <F9> :call TogglePaste()<CR>
 inoremap jj <ESC>
 " I have git for this.
@@ -192,7 +195,7 @@ let g:SuperTabDefaultCompletionType = "context"
 "YCM Settings"
 let g:ycm_filetype_whitelist = { 'cpp' : 1, 'python' : 1, 'rb' : 1}
 let g:ycm_global_ycm_extra_conf = '~'
-
+let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_confirm_extra_conf = 0
 let g:ycm_extra_conf_globlist = ['~', '.', '../']
 let g:ycm_add_preview_to_completeopt=1
