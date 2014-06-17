@@ -79,9 +79,20 @@
 [submodule "bundle/l9"]
 	path = bundle/l9
 	url = https://github.com/vim-scripts/L9.git
+    ignore = dirty
 [submodule "bundle/taglist"]
 	path = bundle/taglist
-	url = https://github.com/vim-scripts/taglist.vim.git
+    url = https://github.com/vim-scripts/taglist.vim.git
+    ignore = dirty
 [submodule "bundle/vimerl"]
 	path = bundle/vimerl
 	url = https://github.com/jimenezrick/vimerl.git
+[submodule "bundle/vim-elixir"]
+	path = bundle/vim-elixir
+	url = https://github.com/elixir-lang/vim-elixir.git
+[submodule "bundle/colo-base16"]
+	path = bundle/colo-base16
+	url = https://github.com/chriskempson/base16-vim.git
+[submodule "bundle/vim-scala"]
+	path = bundle/vim-scala
+	url = https://github.com/derekwyatt/vim-scala.git
