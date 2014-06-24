@@ -132,6 +132,16 @@ endif
 highlight ColorColumn ctermbg=red
 highlight ColorColumn guibg=red
 
+" Visual indicator of extraneous whitespace
+highlight ExtraWhitespace ctermbg=red guibg=red
+match ExtraWhitespace /\s\+$/
+autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
+autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
+autocmd InsertLeave * match ExtraWhitespace /\s\+$/
+autocmd BufWinLeave * call clearmatches()
+command! Clean execute "%s/\\s\\+$//g"
+command! -nargs=+ -complete=file -bar Ag silent! grep! <args>|cwindow|redraw!
+
 " Global tab and indentation settings
 " How many spaces a tab counts for
 set tabstop=4
