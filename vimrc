@@ -15,7 +15,7 @@ function! ToggleToolbars()
         set guioptions=aci
     else
         set guioptions=aegimrLtT
-        set lines=60 
+        set lines=60
         set columns=80
     endif
 endfunction
@@ -24,7 +24,7 @@ function! ToggleFullScreen()
     if has("Mac")
         if &fu == 1
             set nofu
-            set lines=50 
+            set lines=50
             set columns=80
         else
             set fu
@@ -45,10 +45,22 @@ function! ToggleColorColumn()
     endif
 endfunction
 
+" For easy editing of plain text
+command! -nargs=* Plain set wrap linebreak nolist showbreak=…
+vmap <D-j> gj
+vmap <D-k> gk
+vmap <D-4> g$
+vmap <D-6> g^
+nmap <D-j> gj
+nmap <D-k> gk
+nmap <D-4> g$
+nmap <D-6> g^
+
 " The Silver Searcher
+let g:ctrlp_cmd="CtrlPCurWD"
 if executable('ag')
     " use ag over grep
-    set grepprg=ag\ --nogroup\ --nocolor 
+    set grepprg=ag\ --nogroup\ --nocolor
 
     " Use ag in Ctrl-P for listing files
     let g:ctrlp_user_command='ag -t %s -l --nocolor -g ""'
@@ -94,18 +106,19 @@ set bg=dark
 set splitright
 set splitbelow
 " For use with airline status bar
+let g:airline_powerline_fonts = 1
 set laststatus=2
 " gui-specific font and colorscheme settings
 if has("gui_running")
-    set lines=60 
+    set lines=60
     set columns=80
 
     if has("win32")
         set guifont=Consolas:h11
     elseif has("Mac")
-        set guifont=Inconsolata:h13
+        set guifont=Inconsolata\ for\ Powerline:h13
     else
-        set guifont=Inconsolata\ \Bold\ 12
+        set guifont=Inconsolata\ for\ Powerline\ Bold\ 12
     endif
     colorscheme gruvbox
     set guioptions=aegimrLtT
