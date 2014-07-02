@@ -126,6 +126,7 @@ if has("gui_running")
     map <silent> <F11> :call ToggleFullScreen()<CR>
 else
     colorscheme jellybeans
+    let g:airline_theme='jellybeans'
 endif
 
 " Visual indicator of more than 80 columns changed to red
@@ -143,6 +144,8 @@ command! Clean execute "%s/\\s\\+$//g"
 command! -nargs=+ -complete=file -bar Ag silent! grep! <args>|cwindow|redraw!
 
 " Global tab and indentation settings
+" Show tabs with `list` attribute enabled
+set lcs=tab:>-
 " How many spaces a tab counts for
 set tabstop=4
 " how many columns to use when a tab is inserted
@@ -170,7 +173,7 @@ set undolevels=1000
 set nobackup
 set noswapfile
 
-set wildignore=*.swp,*.back,*.pyc,*.class
+set wildignore+=*.swp,*.back,*.pyc,*.class,*.beam
 set title " change the title of the window
 " set visualbell " don't beep
 " set noerrorbells " don't beep
@@ -197,12 +200,13 @@ noremap <F4> :TlistToggle<CR>
 noremap <F5> :set hlsearch!<CR>
 noremap <F6> :call ToggleColorColumn()<CR>
 " Execute the current file
-noremap <F8> :!./% <CR>
+noremap <F8> :!chmod +x % && ./% <CR>
 noremap <F9> :call TogglePaste()<CR>
 inoremap jj <ESC>
-" I have git for this.
-set nobackup
-set noswapfile
+
+" ===================================================================
+" Completion plugin settings
+" ===================================================================
 
 " taglist settings
 let Tlist_Ctags_Cmd='/usr/bin/ctags'
