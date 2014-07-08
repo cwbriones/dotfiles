@@ -94,8 +94,9 @@ filetype plugin on
 filetype plugin indent on
 syntax on
 set hidden
-set foldmethod=syntax
+set foldenable
 set foldlevel=99
+let g:erlang_folding=1
 if $COLORTERM == 'gnome-terminal'
   set t_Co=256
 endif
@@ -116,11 +117,11 @@ if has("gui_running")
     if has("win32")
         set guifont=Consolas:h11
     elseif has("Mac")
-        set guifont=Inconsolata\ for\ Powerline:h13
+        set guifont=Inconsolata\ for\ Powerline:h18
     else
         set guifont=Inconsolata\ for\ Powerline\ Bold\ 12
     endif
-    colorscheme gruvbox
+    colorscheme codeschool
     set guioptions=aegimrLtT
     "Put gvim into fullscreen"
     map <silent> <F11> :call ToggleFullScreen()<CR>
@@ -199,6 +200,7 @@ noremap <F4> :TlistToggle<CR>
 " Clear recent search
 noremap <F5> :set hlsearch!<CR>
 noremap <F6> :call ToggleColorColumn()<CR>
+noremap <F7> :GundoToggle<CR>
 " Execute the current file
 noremap <F8> :!chmod +x % && ./% <CR>
 noremap <F9> :call TogglePaste()<CR>
@@ -232,3 +234,4 @@ let pumheight=15
 let g:EclimCompletionMethod = "omnifunc"
 let g:rubycomplete_buffer_loading = 0
 let g:rubycomplete_rails = 1
+autocmd BufRead *.cql set syntax=cql
