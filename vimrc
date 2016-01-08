@@ -81,7 +81,6 @@ nnoremap \ :Ag<SPACE>
 let g:syntastic_cpp_check_header=1
 let g:syntastic_cpp_compiler = 'g++-4.8'
 let g:syntastic_cpp_compiler_options='-std=c++11'
-let g:syntastic_error_symbol='!!'
 let g:syntastic_style_error_symbol='S!'
 let g:syntastic_warning_symbol='>>'
 let g:syntastic_style_warning_symbol='S>'
@@ -107,7 +106,16 @@ set bg=dark
 set splitright
 set splitbelow
 " For use with airline status bar
-let g:airline_powerline_fonts = 1
+if !exists("g:airline_symbols") && !has("gui_running")
+    let g:airline_symbols = {}
+    let g:airline_left_sep = '»'
+    let g:airline_right_sep = '«'
+    let g:airline_symbols.linenr = '␤'
+    let g:airline_symbols.branch = '⎇'
+    let g:airline_symbols.paste = 'ρ'
+    let g:airline_symbols.whitespace = 'Ξ'
+    let g:airline_powerline_fonts = 0
+endif
 set laststatus=2
 " gui-specific font and colorscheme settings
 if has("gui_running")

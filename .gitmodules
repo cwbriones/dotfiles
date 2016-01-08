@@ -105,3 +105,6 @@
 [submodule "bundle/vim-abolish"]
 	path = bundle/vim-abolish
 	url = https://github.com/tpope/vim-abolish
+[submodule "bundle/rust-vim"]
+	path = bundle/rust-vim
+	url = https://github.com/rust-lang/rust.vim
