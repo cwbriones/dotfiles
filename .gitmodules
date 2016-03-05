@@ -108,3 +108,9 @@
 [submodule "bundle/rust-vim"]
 	path = bundle/rust-vim
 	url = https://github.com/rust-lang/rust.vim
+[submodule "bundle/vim-toml"]
+	path = bundle/vim-toml
+	url = https://github.com/cespare/vim-toml
+[submodule "bundle/vim-crystal"]
+	path = bundle/vim-crystal
+	url = https://github.com/rhysd/vim-crystal
