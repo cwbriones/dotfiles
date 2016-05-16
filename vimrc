@@ -32,7 +32,7 @@ function! ToggleFullScreen()
     else
         call ToggleToolbars()
         call system("wmctrl -i -r ".v:windowid." -b toggle,fullscreen")
-    endif
+   endif
     redraw
 endfunction
 
@@ -59,18 +59,13 @@ nmap <D-6> g^
 " The Silver Searcher
 let g:ctrlp_cmd="CtrlPCurWD"
 if executable('ag')
-    " use ag over grep
+    " Use ag in Ctrl-P for listing files and over grep.
     set grepprg=ag\ --nogroup\ --nocolor
 
-    " Use ag in Ctrl-P for listing files
-    let g:ctrlp_user_command='ag -t %s -l --nocolor -g ""'
-
-    " ag is fast enough that Ctrl-P doesnt need to cache
-    let g:ctrlp_user_caching=0
+    let g:ctrlp_user_command='ag %s -l --nocolor -g ""'
+    let g:ctrlp_user_caching=1
 endif
 
-" Bind K to grep word under cursor
-nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 command! -nargs=+ -complete=file -bar Ag silent! grep! <args>|cwindow|redraw!
 nnoremap \ :Ag<SPACE>
 
@@ -84,6 +79,8 @@ let g:syntastic_cpp_compiler_options='-std=c++11'
 let g:syntastic_style_error_symbol='S!'
 let g:syntastic_warning_symbol='>>'
 let g:syntastic_style_warning_symbol='S>'
+let g:syntastic_style_warning_symbol='S>'
+let g:syntastic_javascript_checkers = ['eslint']
 
 " Appearance
 filetype on
@@ -117,6 +114,7 @@ if !exists("g:airline_symbols") && !has("gui_running")
     let g:airline_powerline_fonts = 0
 endif
 set laststatus=2
+let fullcolor_colorscheme="base16-ocean"
 " gui-specific font and colorscheme settings
 if has("gui_running")
     set lines=60
@@ -129,13 +127,14 @@ if has("gui_running")
     else
         set guifont=Inconsolata\ for\ Powerline\ Bold\ 12
     endif
-    colorscheme codeschool
+    execute "colorscheme ".fullcolor_colorscheme
     set guioptions=aegimrLtT
     "Put gvim into fullscreen"
     map <silent> <F11> :call ToggleFullScreen()<CR>
+elseif has("nvim")
+    execute "colorscheme ".fullcolor_colorscheme
 else
     colorscheme jellybeans
-    let g:airline_theme='jellybeans'
 endif
 
 " Visual indicator of more than 80 columns changed to red
@@ -242,4 +241,5 @@ let pumheight=15
 let g:EclimCompletionMethod = "omnifunc"
 let g:rubycomplete_buffer_loading = 0
 let g:rubycomplete_rails = 1
+let g:ycm_rust_src_path=$RUST_SRC_PATH
 autocmd BufRead *.cql set syntax=cql
