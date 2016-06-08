@@ -117,3 +117,9 @@
 [submodule "bundle/elm-vim"]
 	path = bundle/elm-vim
 	url = https://github.com/ElmCast/elm-vim
+[submodule "bundle/colorsbox"]
+	path = bundle/colorsbox
+	url = https://github.com/mkarmona/colorsbox
+[submodule "bundle/vim-material-theme"]
+	path = bundle/vim-material-theme
+	url = https://github.com/jdkanani/vim-material-theme

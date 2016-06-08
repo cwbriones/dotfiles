@@ -114,7 +114,7 @@ if !exists("g:airline_symbols") && !has("gui_running")
     let g:airline_powerline_fonts = 0
 endif
 set laststatus=2
-let fullcolor_colorscheme="base16-ocean"
+let fullcolor_colorscheme="colorsbox-material"
 " gui-specific font and colorscheme settings
 if has("gui_running")
     set lines=60

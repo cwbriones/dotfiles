@@ -6,7 +6,6 @@ if has("Mac")
 else
     set guifont=Inconsolata\ for\ Powerline\ Bold\ 12
 endif
-colorscheme base16-ocean
 set guioptions=aegimrLtT
 "Put gvim into fullscreen"
 map <silent> <F11> :call ToggleFullScreen()<CR>
