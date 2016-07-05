@@ -84,9 +84,6 @@
 	path = bundle/taglist
     url = https://github.com/vim-scripts/taglist.vim.git
     ignore = dirty
-[submodule "bundle/vimerl"]
-	path = bundle/vimerl
-	url = https://github.com/jimenezrick/vimerl.git
 [submodule "bundle/vim-elixir"]
 	path = bundle/vim-elixir
 	url = https://github.com/elixir-lang/vim-elixir.git
@@ -123,3 +120,18 @@
 [submodule "bundle/vim-material-theme"]
 	path = bundle/vim-material-theme
 	url = https://github.com/jdkanani/vim-material-theme
+[submodule "bundle/vim-erlang-autocomplete"]
+	path = bundle/vim-erlang-autocomplete
+	url = https://github.com/vim-erlang/vim-erlang-omnicomplete
+[submodule "bundle/vim-erlang-compiler"]
+	path = bundle/vim-erlang-compiler
+	url = https://github.com/vim-erlang/vim-erlang-compiler
+[submodule "bundle/ghcmod-vim"]
+	path = bundle/ghcmod-vim
+	url = https://github.com/eagletmt/ghcmod-vim.git
+[submodule "bundle/neco-ghc"]
+	path = bundle/neco-ghc
+	url = https://github.com/eagletmt/neco-ghc
+[submodule "bundle/vimproc"]
+	path = bundle/vimproc
+	url = https://github.com/Shougo/vimproc.vim

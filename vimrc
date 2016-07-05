@@ -81,6 +81,10 @@ let g:syntastic_warning_symbol='>>'
 let g:syntastic_style_warning_symbol='S>'
 let g:syntastic_style_warning_symbol='S>'
 let g:syntastic_javascript_checkers = ['eslint']
+let g:syntastic_always_popular_loc_list = 1
+let g:syntastic_auto_loc_list = 0
+let g:syntastic_check_on_open = 0
+let g:syntastic_check_on_wq = 0
 
 " Appearance
 filetype on
@@ -183,8 +187,8 @@ set noswapfile
 
 set wildignore+=*.swp,*.back,*.pyc,*.class,*.beam
 set title " change the title of the window
-" set visualbell " don't beep
-" set noerrorbells " don't beep
+set visualbell " don't beep
+set noerrorbells " don't beep
 
 " Key mappings
 let mapleader = ","
@@ -193,6 +197,8 @@ nmap  <leader>a: :Tabularize /:<CR>
 nmap  <leader>a= :Tabularize /=<CR>
 vmap  <leader>a: :Tabularize /:<CR>
 vmap  <leader>a= :Tabularize /=<CR>
+vmap  <leader>a; :Tabularize /::<CR>
+vmap  <leader>a- :Tabularize /-><CR>
 nmap <silent> <leader>ff :CtrlP<CR>
 nmap <silent> <leader>fb :CtrlPMRU<CR>
 nmap <silent> <leader>ev :e $MYVIMRC<CR>
@@ -235,6 +241,7 @@ let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_confirm_extra_conf = 0
 let g:ycm_extra_conf_globlist = ['~', '.', '../']
 let g:ycm_add_preview_to_completeopt=1
+let g:ycm_semantic_triggers = {'haskell' : ['.']}
 set completeopt=menuone,preview
 let pumheight=15
 
