@@ -1,21 +1,6 @@
-[submodule "colo-github"]
-    path = bundle/colo-github
-	url = https://github.com/endel/vim-github-colorscheme.git
 [submodule "colo-gruvbox"]
     path = bundle/colo-gruvbox
 	url = https://github.com/morhetz/gruvbox.git
-[submodule "colo-kolor"]
-    path = bundle/colo-kolor
-	url = https://github.com/zeis/vim-kolor.git
-[submodule "colo-lucius"]
-    path = bundle/colo-lucius
-	url = https://github.com/jonathanfilip/vim-lucius.git
-[submodule "colo-monokai"]
-    path = bundle/colo-monokai
-	url = https://github.com/sickill/vim-monokai.git
-[submodule "colo-molokai"]
-    path = bundle/colo-molokai
-	url = https://github.com/tomasr/molokai.git
 [submodule "fugitive"]
     path = bundle/fugitive
 	url = https://github.com/tpope/vim-fugitive.git
@@ -49,15 +34,6 @@
 [submodule "bundle/youcompleteme"]
     path = bundle/youcompleteme
 	url = https://github.com/Valloric/YouCompleteMe.git
-[submodule "bundle/colo-badwolf"]
-    path = bundle/colo-badwolf
-	url = https://github.com/sjl/badwolf.git
-[submodule "bundle/colo-railscasts"]
-    path = bundle/colo-railscasts
-	url = https://github.com/jpo/vim-railscasts-theme.git
-[submodule "bundle/colo-wombat"]
-    path = bundle/colo-wombat
-	url = https://github.com/vim-scripts/Wombat.git
 [submodule "bundle/vim-rails"]
     path = bundle/vim-rails
     url = https://github.com/tpope/vim-rails.git
@@ -90,9 +66,6 @@
 [submodule "bundle/colo-base16"]
 	path = bundle/colo-base16
 	url = https://github.com/chriskempson/base16-vim.git
-[submodule "bundle/vim-scala"]
-	path = bundle/vim-scala
-	url = https://github.com/derekwyatt/vim-scala.git
 [submodule "bundle/easymotion"]
 	path = bundle/easymotion
 	url = https://github.com/Lokaltog/vim-easymotion
@@ -108,9 +81,6 @@
 [submodule "bundle/vim-toml"]
 	path = bundle/vim-toml
 	url = https://github.com/cespare/vim-toml
-[submodule "bundle/vim-crystal"]
-	path = bundle/vim-crystal
-	url = https://github.com/rhysd/vim-crystal
 [submodule "bundle/elm-vim"]
 	path = bundle/elm-vim
 	url = https://github.com/ElmCast/elm-vim
