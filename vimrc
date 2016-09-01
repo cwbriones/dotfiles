@@ -235,13 +235,11 @@ smap <C-J> <Plug>snipMateNextOrTrigger
 
 let g:SuperTabDefaultCompletionType = "context"
 "YCM Settings"
-let g:ycm_filetype_whitelist = { 'cpp' : 1, 'python' : 1, 'rb' : 1}
 let g:ycm_global_ycm_extra_conf = '~'
 let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_confirm_extra_conf = 0
 let g:ycm_extra_conf_globlist = ['~', '.', '../']
 let g:ycm_add_preview_to_completeopt=1
-let g:ycm_semantic_triggers = {'haskell' : ['.']}
 set completeopt=menuone,preview
 let pumheight=15
 
