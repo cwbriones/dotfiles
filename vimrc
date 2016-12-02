@@ -58,8 +58,8 @@ nmap <D-6> g^
 
 " The Silver Searcher
 let g:ctrlp_cmd="CtrlPCurWD"
-if executable('ag')
-    " Use ag in Ctrl-P for listing files and over grep.
+if executable('rg')
+    " Use rg in Ctrl-P for listing files and over grep.
     set grepprg=ag\ --nogroup\ --nocolor
 
     let g:ctrlp_user_command='ag %s -l --nocolor -g ""'
@@ -99,6 +99,9 @@ set foldlevel=99
 let g:erlang_folding=1
 if $COLORTERM == 'gnome-terminal'
   set t_Co=256
+endif
+if has("nvim") && $TERM == 'xterm-256color'
+  set termguicolors
 endif
 set nowrap
 set ruler
@@ -153,7 +156,6 @@ autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
 autocmd InsertLeave * match ExtraWhitespace /\s\+$/
 autocmd BufWinLeave * call clearmatches()
 command! Clean execute "%s/\\s\\+$//g"
-command! -nargs=+ -complete=file -bar Ag silent! grep! <args>|cwindow|redraw!
 
 " Global tab and indentation settings
 " Show tabs with `list` attribute enabled
@@ -189,6 +191,7 @@ set wildignore+=*.swp,*.back,*.pyc,*.class,*.beam
 set title " change the title of the window
 set visualbell " don't beep
 set noerrorbells " don't beep
+set cursorline
 
 " Key mappings
 let mapleader = ","
@@ -218,6 +221,11 @@ noremap <F7> :GundoToggle<CR>
 noremap <F8> :!chmod +x % && ./% <CR>
 noremap <F9> :call TogglePaste()<CR>
 inoremap jj <ESC>
+
+noremap <LEADER>y "*y
+noremap <LEADER>p "*p
+noremap <LEADER>Y "+y
+noremap <LEADER>P "+p
 
 " ===================================================================
 " Completion plugin settings
