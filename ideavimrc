@@ -1,0 +1,22 @@
+"============================================================================
+" IDE actions
+"============================================================================
+let mapleader = ","
+
+nnoremap <leader>d :action QuickJavaDoc<CR>
+nnoremap <leader>f :action GotoFile<CR>
+vmap <C-p> :action GotoClass<CR>
+remap <leader>sv :source ~/.ideavimrc<CR>
+
+nnoremap / :action Find<CR>
+nnoremap n :action FindNext<CR>
+nnoremap N :action FindPrevious<CR>
+ 
+nnoremap U :action $Redo<CR>
+nnoremap <C-p> :action RecentFiles<CR>
+nnoremap <F3> :action FileStructurePopup<CR>
+
+" nnoremap / :action Find<CR>
+" nnoremap ; :action AceJumpAction<CR>
+" nnoremap <Space>d :action CloseContent<CR>
+" nnoremap <Space>k :action FileStructurePopup<CR>
