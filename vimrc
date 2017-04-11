@@ -6,6 +6,7 @@ call plug#begin('~/.vim/bundle')
 Plug 'ElmCast/elm-vim'
 Plug 'Lokaltog/vim-easymotion'
 Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
 Plug 'Valloric/YouCompleteMe'
 Plug 'bling/vim-airline'
 Plug 'cespare/vim-toml'
@@ -14,7 +15,7 @@ Plug 'elixir-lang/vim-elixir'
 Plug 'godlygeek/tabular'
 Plug 'rust-lang/rust.vim'
 Plug 'scrooloose/nerdtree'
-Plug 'scrooloose/syntastic'
+Plug 'w0rp/ale'
 Plug 'sjl/gundo.vim'
 Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-fugitive'
@@ -105,20 +106,17 @@ nnoremap \ :Ag<SPACE>
 
 " Automatically open NERDTree if no files specified
 " autocmd vimenter * if !argc() | NERDTree | endif
+let NERDTreeIgnore = ['\.pyc$']
 
-"syntastic error checker settings
-let g:syntastic_cpp_check_header=1
-let g:syntastic_cpp_compiler = 'g++-4.8'
-let g:syntastic_cpp_compiler_options='-std=c++11'
-let g:syntastic_style_error_symbol='S!'
-let g:syntastic_warning_symbol='>>'
-let g:syntastic_style_warning_symbol='S>'
-let g:syntastic_style_warning_symbol='S>'
-let g:syntastic_javascript_checkers = ['eslint']
-let g:syntastic_always_popular_loc_list = 1
-let g:syntastic_auto_loc_list = 0
-let g:syntastic_check_on_open = 0
-let g:syntastic_check_on_wq = 0
+"ale error checker settings
+let g:ale_sign_error = '!!'
+let g:ale_sign_warning = '>>'
+let g:ale_lint_on_enter = 0
+let g:ale_statusline_format = ['⨉ %d', '⚠ %d', '⬥ ok']
+let g:ale_lint_on_text_changed = 'never'
+let airline#extensions#ale#error_symbol = '⨉ '
+let airline#extensions#ale#warning_symbol = '⚠ '
+let g:airline#extensions#ale#enabled = 1
 
 " Appearance
 filetype on
@@ -127,6 +125,10 @@ filetype plugin on
 " Enable language specific indentation settings
 filetype plugin indent on
 syntax on
+
+set encoding=utf-8
+set fileformat=unix
+
 set hidden
 set foldenable
 set foldlevel=99
@@ -144,16 +146,20 @@ set bg=dark
 set splitright
 set splitbelow
 " For use with airline status bar
-if !exists("g:airline_symbols") && !has("gui_running")
+if !exists("g:airline_symbols")
     let g:airline_symbols = {}
-    let g:airline_left_sep = '»'
-    let g:airline_right_sep = '«'
-    let g:airline_symbols.linenr = '␤'
-    let g:airline_symbols.branch = '⎇'
+    let g:airline_left_sep = ''
+    let g:airline_left_alt_sep = ''
+    let g:airline_right_sep = ''
+    let g:airline_right_alt_sep = ''
+    let g:airline_symbols.branch = ''
+    let g:airline_symbols.readonly = ''
     let g:airline_symbols.paste = 'ρ'
+    let g:airline_symbols.linenr = ''
+    let g:airline_symbols.maxlinenr = ''
     let g:airline_symbols.whitespace = 'Ξ'
-    let g:airline_powerline_fonts = 0
 endif
+
 set laststatus=2
 let fullcolor_colorscheme="colorsbox-material"
 " gui-specific font and colorscheme settings
@@ -246,14 +252,10 @@ nnoremap <leader>w <C-w>v<C-w>l
 " <F1> is mapped to vim help by the OS"
 noremap <F2> :Errors<CR>
 noremap <F3> :NERDTreeToggle<CR>
-noremap <F4> :TlistToggle<CR>
 " Clear recent search
 noremap <F5> :set hlsearch!<CR>
 noremap <F6> :call ToggleColorColumn()<CR>
 noremap <F7> :GundoToggle<CR>
-" Execute the current file
-noremap <F8> :!chmod +x % && ./% <CR>
-noremap <F9> :call TogglePaste()<CR>
 inoremap jj <ESC>
 
 noremap <leader>y "*y
@@ -261,37 +263,27 @@ noremap <leader>p "*p
 noremap <leader>Y "+y
 noremap <leader>P "+p
 
-noremap <leader>d :YcmCompleter GetDoc <CR>
-noremap <leader>t :YcmCompleter GetType <CR>
-noremap <leader>fi :YcmCompleter FixIt <CR>
-noremap <leader>g :YcmCompleter GoTo <CR>
-
 " ===================================================================
 " Completion plugin settings
 " ===================================================================
+noremap <leader>d :YcmCompleter GetDoc<CR>
+noremap <leader>g :YcmCompleter GoTo<CR>
+noremap <leader>t :YcmCompleter GetType<CR>
+noremap <leader>u :YcmCompleter GoToReferences<CR>
+noremap <leader>fi :YcmCompleter FixIt<CR>
 
-" taglist settings
-let Tlist_Ctags_Cmd='/usr/bin/ctags'
-let Tlist_Win_Width=50
-let Tlist_Exit_Only_Window = 1
-" let Tlist_Show_One_File = 1
-" let Tlist_Display_Prototype=1
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 
-imap <C-J> <esc>a<Plug>snipMateNextOrTrigger
-smap <C-J> <Plug>snipMateNextOrTrigger
-
-let g:SuperTabDefaultCompletionType = "context"
 "YCM Settings"
 let g:ycm_global_ycm_extra_conf = '~'
 let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_confirm_extra_conf = 0
 let g:ycm_extra_conf_globlist = ['~', '.', '../']
 let g:ycm_add_preview_to_completeopt=1
+let g:ycm_python_binary_path='python'
 set completeopt=menuone,preview
 let pumheight=15
 
-let g:EclimCompletionMethod = "omnifunc"
-let g:rubycomplete_buffer_loading = 0
-let g:rubycomplete_rails = 1
 let g:ycm_rust_src_path=$RUST_SRC_PATH
-autocmd BufRead *.cql set syntax=cql
