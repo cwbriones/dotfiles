@@ -1,6 +1,49 @@
-execute pathogen#infect()
+"======================================================================
+" Plugins managed by vim-plug
+"======================================================================
+call plug#begin('~/.vim/bundle')
 
-execute pathogen#helptags()
+" let Vundle manage Vundle, required
+Plug 'ElmCast/elm-vim'
+Plug 'Lokaltog/vim-easymotion'
+Plug 'MarcWeber/vim-addon-mw-utils'
+Plug 'Shougo/vimproc.vim'
+Plug 'Valloric/YouCompleteMe'
+Plug 'bling/vim-airline'
+Plug 'cespare/vim-toml'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'eagletmt/ghcmod-vim'
+Plug 'eagletmt/neco-ghc'
+Plug 'elixir-lang/vim-elixir'
+Plug 'ervandew/supertab'
+Plug 'garbas/vim-snipmate'
+Plug 'godlygeek/tabular'
+Plug 'honza/vim-snippets'
+Plug 'rust-lang/rust.vim'
+Plug 'scrooloose/nerdtree'
+Plug 'scrooloose/syntastic'
+Plug 'sjl/gundo.vim'
+Plug 'tomtom/tcomment_vim'
+Plug 'tomtom/tlib_vim'
+Plug 'tpope/vim-abolish'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-rails'
+Plug 'vim-erlang/vim-erlang-compiler'
+Plug 'vim-erlang/vim-erlang-omnicomplete'
+Plug 'vim-scripts/L9'
+Plug 'vim-scripts/TaskList.vim'
+Plug 'vim-scripts/taglist.vim'
+
+" Colorschemes
+Plug 'chriskempson/base16-vim'
+Plug 'mkarmona/colorsbox'
+Plug 'morhetz/gruvbox'
+
+call plug#end()
+"======================================================================
+" End Plugins
+"======================================================================
+
 " Custom Function Definitions
 function! TogglePaste()
     if &paste == 1

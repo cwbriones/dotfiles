@@ -45,3 +45,5 @@ Thumbs.db
 ####################
 eclim
 init.vim
+
+bundle/*
