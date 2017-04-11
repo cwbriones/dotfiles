@@ -222,10 +222,15 @@ noremap <F8> :!chmod +x % && ./% <CR>
 noremap <F9> :call TogglePaste()<CR>
 inoremap jj <ESC>
 
-noremap <LEADER>y "*y
-noremap <LEADER>p "*p
-noremap <LEADER>Y "+y
-noremap <LEADER>P "+p
+noremap <leader>y "*y
+noremap <leader>p "*p
+noremap <leader>Y "+y
+noremap <leader>P "+p
+
+noremap <leader>d :YcmCompleter GetDoc <CR>
+noremap <leader>t :YcmCompleter GetType <CR>
+noremap <leader>fi :YcmCompleter FixIt <CR>
+noremap <leader>g :YcmCompleter GoTo <CR>
 
 " ===================================================================
 " Completion plugin settings
