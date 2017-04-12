@@ -20,6 +20,8 @@ Plug 'sjl/gundo.vim'
 Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-fugitive'
 Plug 'vim-python/python-syntax'
+Plug 'tpope/vim-surround'
+Plug 'tmhedberg/SimpylFold'
 " Plug 'eagletmt/ghcmod-vim'
 " Plug 'eagletmt/neco-ghc'
 " Plug 'tpope/vim-abolish'
@@ -270,7 +272,7 @@ noremap <leader>d :YcmCompleter GetDoc<CR>
 noremap <leader>g :YcmCompleter GoTo<CR>
 noremap <leader>t :YcmCompleter GetType<CR>
 noremap <leader>u :YcmCompleter GoToReferences<CR>
-noremap <leader>fi :YcmCompleter FixIt<CR>
+noremap <leader>fi :lope<CR>
 
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
@@ -283,6 +285,11 @@ let g:ycm_confirm_extra_conf = 0
 let g:ycm_extra_conf_globlist = ['~', '.', '../']
 let g:ycm_add_preview_to_completeopt=1
 let g:ycm_python_binary_path='python'
+if !exists("g:ycm_semantic_triggers")
+    let g:ycm_semantic_triggers = {}
+endif
+let g:ycm_semantic_triggers['python'] = ['.', 'from ', 'import ']
+
 set completeopt=menuone,preview
 let pumheight=15
 
