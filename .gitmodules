@@ -1,6 +1,0 @@
-[submodule "bundle/guicolorscheme"]
-	path = bundle/guicolorscheme
-	url = https://github.com/vim-scripts/guicolorscheme.vim.git
-[submodule "bundle/vim-material-theme"]
-	path = bundle/vim-material-theme
-	url = https://github.com/jdkanani/vim-material-theme

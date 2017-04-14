@@ -1,0 +1,63 @@
+[user]
+	name = Christian Briones
+	email = cwbriones@gmail.com
+[core]
+	excludesfile = /Users/cwbriones/Documents/dev/.gitignore
+[merge]
+    tool = gvimdiff
+    ff = only
+    conflictstype = diff3
+[push]
+    default = current
+    followTags = true
+[status]
+    showAllUntrackedFiles = true
+[diff]
+    compactionHeuristic = true
+[color]
+    ui = auto
+[alias]
+    ## abbreviated commands
+    pu = pull
+	co = checkout
+	ci = commit
+	br = branch
+    rb = rebase
+    pk = cherry-pick
+    stat = status -s
+
+    unstage = reset HEAD
+    undo = reset --soft HEAD^
+    prune = fetch --prune
+    stash-all = stash --include-untracked
+    this = !git init && git add . && git commit -m \"initial commit\"
+
+    ## fancy log
+	hist = log --graph --pretty=format:'%Cred%h%Creset - %C(yellow)%d%Creset %s %Cgreen (%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+    changes = diff-tree --no-commit-id --name-status -r
+
+    ## common diffs
+    diffp = diff HEAD^
+    diffs = diff --staged
+    diffn = diff --name-only
+
+    ## useful for rebasing
+    abort = rebase --abort
+    cont  = rebase --continue
+	conflicts = diff --name-only --diff-filter=U
+    ## update and rebase onto origin/master.HEAD
+    rbm = ! git co master && git pull && git co - && git rb master
+
+    #misc
+    today = "!git commit --amend --date=\"$(gdate -R)\""
+    credit = "!git commit --amend --author=\"$(git config user.name) <$(git config user.email)>\""
+    serve = daemon --reuseaddr --verbose --base-path=. --export-all
+    ready = !git stash && git checkout master && git pull -t
+    rekt = !git clean -d -x -f && git reset --hard
+    jk = commit -a --amend
+[mergetool "fugitive"]
+	cmd = vim -f -c \"Gvdiff\" \"$MERGED\"
+[mergetool "vimdiff"]
+	keepBackup = false
+[mergetool]
+	keepBackup = false
