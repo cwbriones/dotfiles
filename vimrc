@@ -8,7 +8,7 @@ Plug 'Lokaltog/vim-easymotion'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'Valloric/YouCompleteMe'
-Plug 'bling/vim-airline'
+Plug 'vim-airline/vim-airline'
 Plug 'cespare/vim-toml'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'elixir-lang/vim-elixir'
@@ -116,6 +116,7 @@ let g:ale_sign_warning = '>>'
 let g:ale_lint_on_enter = 0
 let g:ale_statusline_format = ['⨉ %d', '⚠ %d', '⬥ ok']
 let g:ale_lint_on_text_changed = 'never'
+let g:ale_rust_cargo_use_check = 1
 let airline#extensions#ale#error_symbol = '⨉ '
 let airline#extensions#ale#warning_symbol = '⚠ '
 let g:airline#extensions#ale#enabled = 1
