@@ -1,14 +1,8 @@
-Vim files
+dotfiles
 =========
 
-This is a backup of my .vimrc as well as my vim plugins through the use
-of git submodules. Almost everything should work right away with pathogen, 
-although you need to compile youcomplete.
+Excuse the mess, this has been long overdue.
 
-To install (or update) pathogen to .vim/autoload
-`
-curl -Sso ~/.vim/autoload/pathogen.vim \
-    https://raw.github.com/tpope/vim-pathogen-master/autoload/pathogen.vim
-`
+Somewhat a fork of [Zach Holman's](https://github.com/holman/dotfiles) popular dotfiles, mainly for structure.
 
-Make sure to symlink ~/.vimrc to ~/.vim/vimrc.
+Working on getting this useable myself, let alone for others.
