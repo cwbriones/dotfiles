@@ -1,41 +1,32 @@
-# shortcut to this dotfiles path is $ZSH
-export ZSH=$HOME/.dotfiles
+#
+# Executes commands at the start of an interactive session.
+#
+export DOTFILES="$HOME/dotfiles"
 
-# your project folder that we can `c [tab]` to
-export PROJECTS=~/Code
+# All of our zsh files
+typeset -U config_files
+config_files=($DOTFILES/**/*.zsh)
 
-# Stash your environment variables in ~/.localrc. This means they'll stay out
-# of your main dotfiles repository (which may be public, like this one), but
-# you'll have access to them in your scripts.
+for file in ${(M)config_files}
+do
+  source $file
+done
+
+# Local non-public configuration
 if [[ -a ~/.localrc ]]
 then
-  source ~/.localrc
+    source ~/.localrc
 fi
 
-# all of our zsh files
-typeset -U config_files
-config_files=($ZSH/**/*.zsh)
+# Source Prezto.
+if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
+  source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
+fi
 
-# load the path files
-for file in ${(M)config_files:#*/path.zsh}
-do
-  source $file
-done
-
-# load everything but the path and completion files
-for file in ${${config_files:#*/path.zsh}:#*/completion.zsh}
-do
-  source $file
-done
-
-# initialize autocomplete here, otherwise functions won't be loaded
-autoload -U compinit
-compinit
-
-# load every completion after autocomplete loads
-for file in ${(M)config_files:#*/completion.zsh}
-do
-  source $file
-done
-
-unset config_files
+# Automatically activate a virtualenv
+function cd {
+    builtin cd "$@"
+    if [ -d "venv" ] ; then
+        source venv/bin/activate
+    fi
+}

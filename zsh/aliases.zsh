@@ -18,7 +18,6 @@ alias weather='curl http://wttr.in/98107?0'
 alias moon='curl http://wttr.in/Moon'
 alias git='noglob git'
 
-alias ls='ls --color=tty'
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
