@@ -2,9 +2,10 @@
 	name = Christian Briones
 	email = cwbriones@gmail.com
 [core]
+    editor = vim
 	excludesfile = /Users/cwbriones/Documents/dev/.gitignore
 [merge]
-    tool = gvimdiff
+    tool = fugitive
     ff = only
     conflictstype = diff3
 [push]
@@ -57,7 +58,6 @@
     jk = commit -a --amend
 [mergetool "fugitive"]
 	cmd = vim -f -c \"Gvdiff\" \"$MERGED\"
-[mergetool "vimdiff"]
-	keepBackup = false
 [mergetool]
 	keepBackup = false
+    prompt = false

@@ -1,7 +1,6 @@
 "======================================================================
 " Plugins managed by vim-plug
-"======================================================================
-
+"====================================================================== 
 call plug#begin('~/.vim/bundle')
 
 Plug 'ElmCast/elm-vim'
@@ -186,8 +185,8 @@ nmap <D-k> gk
 nmap <D-4> g$
 nmap <D-6> g^
 
-command! -nargs=+ -complete=file -bar Ag silent! grep! <args>|cwindow|redraw!
-nnoremap \ :Ag<SPACE>
+command! -nargs=+ -complete=file -bar Rg silent! grep! <args>|cwindow|redraw!
+nnoremap \ :Rg<SPACE>
 
 " ===================================================================
 " Key Mappings
@@ -256,15 +255,16 @@ if !exists("g:airline_symbols")
     let g:airline_symbols.whitespace = 'Ξ'
 endif
 
-" The Silver Searcher
-let g:ctrlp_cmd="CtrlPCurWD"
-if executable('rg')
-    " Use rg in Ctrl-P for listing files and over grep.
-    set grepprg=ag\ --nogroup\ --nocolor
+" RipGrep
+" Use rg in Ctrl-P for listing files and over grep.
+if executable("rg")
+    set grepprg=rg\ --vimgrep\ --no-heading
+    set grepformat=%f:%l:%c:%m,%f:%l:%m
 
-    let g:ctrlp_user_command='ag %s -l --nocolor -g ""'
-    let g:ctrlp_user_caching=1
+    let g:ctrlp_user_command='rg --files %s'
+    let g:ctrlp_user_caching=0
 endif
+let g:ctrlp_cmd="CtrlPCurWD"
 
 " Ale Error Checker
 let g:ale_sign_error = '!!'
