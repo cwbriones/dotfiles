@@ -5,5 +5,6 @@ export DEP_OPENSSL_INCLUDE=/usr/local/opt/openssl/include
 export OPENSSL_INCLUDE_DIR=/usr/local/opt/openssl/include
 export PYTHONDONTWRITEBYTECODE=1
 export VIRTUAL_ENV_DISABLE_PROMPT=1
+export PROMPT_EOL_MARK=""
 
 ulimit -n 4096
