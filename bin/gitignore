@@ -1,0 +1,38 @@
+#!/bin/bash
+USAGE="gitignore.io - initialize .gitnore files for your project.
+
+Usage:
+    gitignore list        - List all types.
+    gitignore add <type>  - Appends the recommended ignores for <type> to the local .gitignore.
+    gitignore show <type> - Shows the recommended ignores for <type>"
+
+API_URL="https://www.gitignore.io/api/"
+
+get_type() {
+    TYPE=$1
+    RETURN=$2
+    RESULT="$(curl -Ls ${API_URL}/$TYPE)"
+    if echo $RESULT | grep -q "ERROR"; then
+        echo "Error: no gitignore found for type \"$TYPE\""
+        exit 1
+    fi
+    eval "$RETURN=\"$RESULT\""
+}
+
+if [[ ${1} = list ]]; then
+    RESULT="$(curl -Ls ${API_URL}/list)"
+    IFS=',' read -ra TYPES <<< "$RESULT"
+    for t in "${TYPES[@]}"; do
+        echo $t
+    done
+elif [[ ${1} = add ]] && [[ $# = 2 ]]; then
+    get_type ${2} IGNORE
+    echo "$IGNORE" >> .gitignore
+    echo "Successfully added matches for $TYPE to $(pwd)/.gitignore"
+elif [[ ${1} = show ]] && [[ $# = 2 ]]; then
+    get_type ${2} IGNORE
+    echo "$IGNORE"
+else
+    echo "$USAGE"
+fi
+
