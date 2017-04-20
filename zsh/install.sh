@@ -11,4 +11,7 @@ if [ ! -d "${ZDOTDIR:-$HOME}/.zprezto" ]
 then
     echo "Installing Prezto."
     git clone --recursive https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
+else
+    cd "${ZDOTDIR:-$HOME}/.zprezto"
+    git pull
 fi

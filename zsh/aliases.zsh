@@ -14,7 +14,7 @@ alias now='gdate +"%s%3N"'
 alias datetime='gdate -Ru'
 alias vi='nvim'
 alias gd='git diff --color | sed "s/^\([^-+ ]*\)[-+ ]/\\1/" | less -r'
-alias weather='curl http://wttr.in\?1q'
+alias weather='curl http://wttr.in/\?0Q'
 alias moon='curl http://wttr.in/Moon'
 alias git='noglob git'
 

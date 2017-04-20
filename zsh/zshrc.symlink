@@ -1,8 +1,10 @@
+# vim: set syntax=zsh:
 #
 # Executes commands at the start of an interactive session.
 #
 export PROJECTS="$HOME/dev"
 export DOTFILES="$HOME/dotfiles"
+export PROJECTS="$HOME/Documents/dev"
 
 # All of our zsh files
 typeset -U config_files
@@ -23,7 +25,7 @@ done
 # Local non-public configuration
 if [[ -a ~/.localrc ]]
 then
-    source ~/.localrc
+  source ~/.localrc
 fi
 
 # Source Prezto.
