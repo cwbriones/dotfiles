@@ -1,10 +1,10 @@
+"vim: set syntax=vim:
 "======================================================================
 " Plugins managed by vim-plug
-"====================================================================== 
+"======================================================================
 call plug#begin('~/.vim/bundle')
 
 Plug 'ElmCast/elm-vim'
-Plug 'Lokaltog/vim-easymotion'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'Valloric/YouCompleteMe'
@@ -21,7 +21,8 @@ Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-fugitive'
 Plug 'vim-python/python-syntax'
 Plug 'tpope/vim-surround'
-Plug 'tmhedberg/SimpylFold'
+Plug 'Yggdroot/indentLine'
+
 " Plug 'eagletmt/ghcmod-vim'
 " Plug 'eagletmt/neco-ghc'
 " Plug 'tpope/vim-abolish'
@@ -34,11 +35,29 @@ Plug 'mkarmona/colorsbox'
 Plug 'morhetz/gruvbox'
 
 " This implicitly enables syntax and filetype
+" filetype plugin indent on
+
+" Load on nothing
+Plug 'SirVer/ultisnips', { 'on': [] }
+Plug 'Valloric/YouCompleteMe', { 'on': [] }
 call plug#end()
+
+" Lazy load YCM and Ultisnips
+" See https://github.com/junegunn/vim-plug/wiki/faq#loading-plugins-manually
+augroup load_us_ycm
+  autocmd!
+  autocmd InsertEnter * call plug#load('ultisnips', 'YouCompleteMe')
+                     \| autocmd! load_us_ycm
+augroup END
 
 "======================================================================
 " Primary Settings
 "======================================================================
+
+" Limit syntax highlighting
+set synmaxcol=150
+let g:matchparen_timeout = 2
+let g:matchparen_insert_timeout = 2
 
 set encoding=utf-8
 set fileformat=unix
@@ -95,7 +114,7 @@ set noerrorbells
 " Appearance
 "======================================================================
 
-let fullcolor_colorscheme="colorsbox-material"
+let fullcolor_colorscheme="base16-solarized-dark"
 
 if $COLORTERM == 'gnome-terminal'
   set t_Co=256
@@ -130,10 +149,10 @@ highlight ColorColumn guibg=red
 " Visual indicator of extraneous whitespace
 highlight ExtraWhitespace ctermbg=red guibg=red
 match ExtraWhitespace /\s\+$/
-autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
-autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
-autocmd InsertLeave * match ExtraWhitespace /\s\+$/
-autocmd BufWinLeave * call clearmatches()
+" autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
+" autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
+" autocmd InsertLeave * match ExtraWhitespace /\s\+$/
+" autocmd BufWinLeave * call clearmatches()
 command! Clean execute "%s/\\s\\+$//g"
 
 "======================================================================
@@ -228,6 +247,7 @@ noremap <leader>g :YcmCompleter GoTo<CR>
 noremap <leader>t :YcmCompleter GetType<CR>
 noremap <leader>u :YcmCompleter GoToReferences<CR>
 noremap <leader>fi :lope<CR>
+noremap <leader>cc :set cursorline!<CR>
 
 " ===================================================================
 " Plugin Settings
@@ -266,6 +286,8 @@ if executable("rg")
 endif
 let g:ctrlp_cmd="CtrlPCurWD"
 
+let g:python_host_skip_check=1
+
 " Ale Error Checker
 let g:ale_sign_error = '!!'
 let g:ale_sign_warning = '>>'
@@ -279,7 +301,7 @@ let g:airline#extensions#ale#enabled = 1
 " Ultisnips
 let g:UltiSnipsExpandTrigger="<c-j>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
-let g:UltiSnipsJumpBackwardTrigger="<c-n>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
 " YouCompleteMe
 let g:ycm_global_ycm_extra_conf = '~'
