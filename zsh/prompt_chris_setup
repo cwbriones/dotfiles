@@ -86,7 +86,7 @@ function prompt_chris_precmd {
   unsetopt XTRACE KSH_ARRAYS
 
   # Format PWD.
-  _prompt_chris_pwd=$(promptpwd)
+  _prompt_chris_pwd=$(prompt-pwd)
 
   # Get Git repository information.
   if (( $+functions[git-info] )); then
@@ -148,8 +148,7 @@ function prompt_chris_setup {
   zstyle ':prezto:module:python:info:virtualenv' format 'virtualenv:%v'
 
   # Define prompts.
-  PROMPT='
-${(e)$(prompt_chris_build_prompt)}
+  PROMPT='${(e)$(prompt_chris_build_prompt)}
  ${editor_info[keymap]} '
   RPROMPT='%F{blue}[%F{green}%D{%H:%M:%S}%F{blue}]%f'
   SPROMPT='zsh: correct %F{red}%R%f to %F{green}%r%f [nyae]? '

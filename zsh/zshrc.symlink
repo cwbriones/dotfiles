@@ -6,6 +6,9 @@ export PROJECTS="$HOME/dev"
 export DOTFILES="$HOME/dotfiles"
 export PROJECTS="$HOME/Documents/dev"
 
+export GOPATH="$PROJECTS/go"
+export DYLD_FORCE_FLAT_NAMESPACE=1
+
 # All of our zsh files
 typeset -U config_files
 config_files=($DOTFILES/**/*.zsh)
@@ -40,3 +43,5 @@ function cd {
         source venv/bin/activate
     fi
 }
+
+export RUST_SRC_PATH='/Users/cwbriones/.rustup/toolchains/stable-x86_64-apple-darwin/lib/rustlib/src'

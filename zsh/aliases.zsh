@@ -1,7 +1,5 @@
 alias reload!='. ~/.zshrc'
 
-alias cls='clear' # Good 'ol Clear Screen command
-
 alias clip='xclip -selection c'
 alias own='sudo chown -R ${USER}:${USER-GROUP}'
 alias lsdir='ls -d */'
@@ -21,3 +19,4 @@ alias git='noglob git'
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
+alias gcc='/usr/local/bin/gcc-4.8'
