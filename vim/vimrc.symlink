@@ -4,25 +4,27 @@
 "======================================================================
 call plug#begin('~/.vim/bundle')
 
-Plug 'ElmCast/elm-vim'
+" General Niceities
 Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
 Plug 'Valloric/YouCompleteMe'
-Plug 'vim-airline/vim-airline'
-Plug 'cespare/vim-toml'
+Plug 'Yggdroot/indentLine'
 Plug 'ctrlpvim/ctrlp.vim'
-Plug 'elixir-lang/vim-elixir'
 Plug 'godlygeek/tabular'
-Plug 'rust-lang/rust.vim'
+Plug 'honza/vim-snippets'
 Plug 'scrooloose/nerdtree'
-Plug 'w0rp/ale'
-Plug 'sjl/gundo.vim'
+Plug 'simnalamburt/vim-mundo'
 Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-fugitive'
-Plug 'vim-python/python-syntax'
 Plug 'tpope/vim-surround'
-Plug 'Yggdroot/indentLine'
+Plug 'vim-airline/vim-airline'
+Plug 'w0rp/ale'
 
+" Language support
+Plug 'ElmCast/elm-vim'
+Plug 'cespare/vim-toml'
+Plug 'elixir-lang/vim-elixir'
+Plug 'rust-lang/rust.vim'
+Plug 'vim-python/python-syntax'
 " Plug 'eagletmt/ghcmod-vim'
 " Plug 'eagletmt/neco-ghc'
 " Plug 'tpope/vim-abolish'
@@ -38,7 +40,7 @@ Plug 'morhetz/gruvbox'
 " filetype plugin indent on
 
 " Load on nothing
-Plug 'SirVer/ultisnips', { 'on': [] }
+" Plug 'SirVer/ultisnips', { 'on': [] }
 Plug 'Valloric/YouCompleteMe', { 'on': [] }
 call plug#end()
 
@@ -46,7 +48,7 @@ call plug#end()
 " See https://github.com/junegunn/vim-plug/wiki/faq#loading-plugins-manually
 augroup load_us_ycm
   autocmd!
-  autocmd InsertEnter * call plug#load('ultisnips', 'YouCompleteMe')
+  autocmd InsertEnter * call plug#load('YouCompleteMe')
                      \| autocmd! load_us_ycm
 augroup END
 
@@ -114,7 +116,11 @@ set noerrorbells
 " Appearance
 "======================================================================
 
-let fullcolor_colorscheme="base16-solarized-dark"
+if strftime("%H") >= 6 && strftime("%H") <= 17
+    let fullcolor_colorscheme="base16-solarized-light"
+else
+    let fullcolor_colorscheme="base16-solarized-dark"
+endif
 
 if $COLORTERM == 'gnome-terminal'
   set t_Co=256
@@ -130,6 +136,7 @@ if has("gui_running")
         set guifont=Consolas:h11
     elseif has("Mac")
         set guifont=Inconsolata\ for\ Powerline:h18
+        set macligatures
     else
         set guifont=Inconsolata\ for\ Powerline\ Bold\ 12
     endif
@@ -213,10 +220,8 @@ nnoremap \ :Rg<SPACE>
 
 let mapleader = ","
 map  <leader>td <Plug>TaskList
-nmap <leader>a: :Tabularize /:<CR>
 nmap <leader>a= :Tabularize /=<CR>
 vmap <leader>a: :Tabularize /:<CR>
-vmap <leader>a= :Tabularize /=<CR>
 vmap <leader>a; :Tabularize /::<CR>
 vmap <leader>a- :Tabularize /-><CR>
 nmap <silent> <leader>ff :CtrlP<CR>
@@ -234,7 +239,7 @@ noremap <F3> :NERDTreeToggle<CR>
 " Clear recent search
 noremap <F5> :set hlsearch!<CR>
 noremap <F6> :call ToggleColorColumn()<CR>
-noremap <F7> :GundoToggle<CR>
+noremap <F7> :MundoToggle<CR>
 inoremap jj <ESC>
 
 noremap <leader>y "*y
@@ -248,6 +253,8 @@ noremap <leader>t :YcmCompleter GetType<CR>
 noremap <leader>u :YcmCompleter GoToReferences<CR>
 noremap <leader>fi :lope<CR>
 noremap <leader>cc :set cursorline!<CR>
+noremap <leader>qf :cope<CR>
+noremap <leader>x :Explore<CR>
 
 " ===================================================================
 " Plugin Settings
@@ -281,8 +288,8 @@ if executable("rg")
     set grepprg=rg\ --vimgrep\ --no-heading
     set grepformat=%f:%l:%c:%m,%f:%l:%m
 
-    let g:ctrlp_user_command='rg --files %s'
-    let g:ctrlp_user_caching=0
+    let g:ctrlp_user_command='rg --files --color never %s'
+    let g:ctrlp_user_caching=1
 endif
 let g:ctrlp_cmd="CtrlPCurWD"
 
@@ -304,14 +311,23 @@ let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
 " YouCompleteMe
+let g:ycm_filetype_whitelist = { 'python': 1, 'js': 1, 'rust': 1, 'go' : 1 }
+" Only for python
+" let g:ycm_path_to_python_interpreter = 'venv/bin/python3'
+" let g:ycm_python_binary_path='venv/bin/python3'
 let g:ycm_global_ycm_extra_conf = '~'
 let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_confirm_extra_conf = 0
 let g:ycm_extra_conf_globlist = ['~', '.', '../']
 let g:ycm_add_preview_to_completeopt=1
-let g:ycm_python_binary_path='python'
 if !exists("g:ycm_semantic_triggers")
     let g:ycm_semantic_triggers = {}
 endif
 let g:ycm_semantic_triggers['python'] = ['.', 'from ', 'import ']
+let g:ycm_semantic_triggers['go'] = ['.', 'import ']
 let g:ycm_rust_src_path=$RUST_SRC_PATH
+
+
+" Temporary flag to enable mouse
+" See https://github.com/neovim/neovim/issues/6082
+set mouse=a
