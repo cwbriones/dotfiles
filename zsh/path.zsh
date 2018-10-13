@@ -11,6 +11,8 @@ path=(
     $HOME/.local/bin
     # Rust executables
     $HOME/.cargo/bin
+    # Go executables
+    $GOPATH/bin
     # JS executables
     $HOME/.config/yarn/global/node_modules/.bin
     $path
