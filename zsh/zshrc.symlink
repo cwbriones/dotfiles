@@ -43,5 +43,3 @@ function cd {
         source venv/bin/activate
     fi
 }
-
-export RUST_SRC_PATH='/Users/cwbriones/.rustup/toolchains/stable-x86_64-apple-darwin/lib/rustlib/src'
