@@ -5,26 +5,24 @@
 call plug#begin('~/.vim/bundle')
 
 " General Niceities
-Plug 'SirVer/ultisnips'
-Plug 'Valloric/YouCompleteMe'
 Plug 'Yggdroot/indentLine'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'godlygeek/tabular'
-Plug 'honza/vim-snippets'
 Plug 'scrooloose/nerdtree'
 Plug 'simnalamburt/vim-mundo'
 Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-surround'
 Plug 'vim-airline/vim-airline'
 Plug 'w0rp/ale'
 
 " Language support
-Plug 'ElmCast/elm-vim'
 Plug 'cespare/vim-toml'
 Plug 'elixir-lang/vim-elixir'
+Plug 'slashmili/alchemist.vim'
 Plug 'rust-lang/rust.vim'
 Plug 'vim-python/python-syntax'
+" -----------------------------------------------------------------------------------------------------
+" Plug 'ElmCast/elm-vim'
 " Plug 'eagletmt/ghcmod-vim'
 " Plug 'eagletmt/neco-ghc'
 " Plug 'tpope/vim-abolish'
@@ -36,21 +34,47 @@ Plug 'chriskempson/base16-vim'
 Plug 'mkarmona/colorsbox'
 Plug 'morhetz/gruvbox'
 
+" Completion
+if has('nvim')
+    Plug 'Shougo/deoplete.nvim', {'do' : ':UpdateRemotePlugins'}
+else
+    Plug 'Shougo/deoplete.nvim'
+    Plug 'roxma/nvim-yarp'
+    Plug 'roxma/vim-hug-neovim-rpc'
+endif
+
+Plug 'davidhalter/jedi-vim'
+Plug 'zchee/deoplete-jedi'
+Plug 'racer-rust/vim-racer'
+Plug 'zchee/deoplete-go', {'do': 'make'}
+call plug#end()
+
 " This implicitly enables syntax and filetype
 " filetype plugin indent on
 
 " Load on nothing
-" Plug 'SirVer/ultisnips', { 'on': [] }
-Plug 'Valloric/YouCompleteMe', { 'on': [] }
-call plug#end()
+let g:deoplete#enable_at_startup = 1
 
-" Lazy load YCM and Ultisnips
-" See https://github.com/junegunn/vim-plug/wiki/faq#loading-plugins-manually
-augroup load_us_ycm
-  autocmd!
-  autocmd InsertEnter * call plug#load('YouCompleteMe')
-                     \| autocmd! load_us_ycm
-augroup END
+" let g:deoplete#sources#rust#disable_keymap=1
+let g:racer_experimental_compiler=1
+
+let g:deoplete#sources#jedi#show_docstring = 1
+let g:jedi#completions_enabled = 0
+let g:jedi#goto_command = "<leader>g"
+let g:jedi#goto_assignments_command = ""
+let g:jedi#goto_definitions_command = ""
+let g:jedi#documentation_command = "<leader>d"
+let g:jedi#usages_command = "<leader>fu"
+let g:jedi#completions_command = ""
+let g:jedi#rename_command = "<leader>r"
+
+" Ctrl-Space: summon FULL (synced) autocompletion
+inoremap <silent><expr> <C-Space> deoplete#mappings#manual_complete()
+inoremap <silent><expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+inoremap <silent><expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
+
+au FileType rust nmap <leader>g <Plug>(rust-def)
+au FileType rust nmap <leader>d <Plug>(rust-doc)
 
 "======================================================================
 " Primary Settings
@@ -90,6 +114,9 @@ set expandtab
 set autoindent
 set smarttab
 set smartindent
+let g:indentLine_char='┊'
+let g:indentLine_enabled=0
+let g:indentLine_setColors=0
 
 " Allow backspaces in insert mode
 set backspace=indent,eol,start
@@ -150,16 +177,12 @@ else
 endif
 
 " Visual indicator of more than 80 columns changed to red
-highlight ColorColumn ctermbg=red
+" highlight ColorColumn ctermbg=red
 highlight ColorColumn guibg=red
 
 " Visual indicator of extraneous whitespace
 highlight ExtraWhitespace ctermbg=red guibg=red
 match ExtraWhitespace /\s\+$/
-" autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
-" autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
-" autocmd InsertLeave * match ExtraWhitespace /\s\+$/
-" autocmd BufWinLeave * call clearmatches()
 command! Clean execute "%s/\\s\\+$//g"
 
 "======================================================================
@@ -247,25 +270,16 @@ noremap <leader>p "*p
 noremap <leader>Y "+y
 noremap <leader>P "+p
 
-noremap <leader>d :YcmCompleter GetDoc<CR>
-noremap <leader>g :YcmCompleter GoTo<CR>
-noremap <leader>t :YcmCompleter GetType<CR>
-noremap <leader>u :YcmCompleter GoToReferences<CR>
 noremap <leader>fi :lope<CR>
 noremap <leader>cc :set cursorline!<CR>
 noremap <leader>qf :cope<CR>
-noremap <leader>x :Explore<CR>
+noremap <leader>x  :Explore<CR>
 
 " ===================================================================
 " Plugin Settings
 " ===================================================================
 
 let g:erlang_folding=1
-
-" NERDTree
-let NERDTreeIgnore = ['\.pyc$']
-" Automatically open NERDTree if no files specified
-" autocmd vimenter * if !argc() | NERDTree | endif
 
 " Airline
 if !exists("g:airline_symbols")
@@ -304,29 +318,6 @@ let g:ale_lint_on_text_changed = 'never'
 let airline#extensions#ale#error_symbol = '⨉ '
 let airline#extensions#ale#warning_symbol = '⚠ '
 let g:airline#extensions#ale#enabled = 1
-
-" Ultisnips
-let g:UltiSnipsExpandTrigger="<c-j>"
-let g:UltiSnipsJumpForwardTrigger="<c-b>"
-let g:UltiSnipsJumpBackwardTrigger="<c-z>"
-
-" YouCompleteMe
-let g:ycm_filetype_whitelist = { 'python': 1, 'js': 1, 'rust': 1, 'go' : 1 }
-" Only for python
-" let g:ycm_path_to_python_interpreter = 'venv/bin/python3'
-" let g:ycm_python_binary_path='venv/bin/python3'
-let g:ycm_global_ycm_extra_conf = '~'
-let g:ycm_autoclose_preview_window_after_completion = 1
-let g:ycm_confirm_extra_conf = 0
-let g:ycm_extra_conf_globlist = ['~', '.', '../']
-let g:ycm_add_preview_to_completeopt=1
-if !exists("g:ycm_semantic_triggers")
-    let g:ycm_semantic_triggers = {}
-endif
-let g:ycm_semantic_triggers['python'] = ['.', 'from ', 'import ']
-let g:ycm_semantic_triggers['go'] = ['.', 'import ']
-let g:ycm_rust_src_path=$RUST_SRC_PATH
-
 
 " Temporary flag to enable mouse
 " See https://github.com/neovim/neovim/issues/6082
