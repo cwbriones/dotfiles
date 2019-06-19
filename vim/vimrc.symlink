@@ -21,6 +21,8 @@ Plug 'elixir-lang/vim-elixir'
 Plug 'slashmili/alchemist.vim'
 Plug 'rust-lang/rust.vim'
 Plug 'vim-python/python-syntax'
+Plug 'leafgarland/typescript-vim'
+Plug 'fatih/vim-go', {'tag': 'v1.19'}
 " -----------------------------------------------------------------------------------------------------
 " Plug 'ElmCast/elm-vim'
 " Plug 'eagletmt/ghcmod-vim'
@@ -47,6 +49,7 @@ Plug 'davidhalter/jedi-vim'
 Plug 'zchee/deoplete-jedi'
 Plug 'racer-rust/vim-racer'
 Plug 'zchee/deoplete-go', {'do': 'make'}
+Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
 call plug#end()
 
 " This implicitly enables syntax and filetype
@@ -60,10 +63,10 @@ let g:racer_experimental_compiler=1
 
 let g:deoplete#sources#jedi#show_docstring = 1
 let g:jedi#completions_enabled = 0
-let g:jedi#goto_command = "<leader>g"
+let g:jedi#goto_command = "<leader>gd"
 let g:jedi#goto_assignments_command = ""
 let g:jedi#goto_definitions_command = ""
-let g:jedi#documentation_command = "<leader>d"
+let g:jedi#documentation_command = "K"
 let g:jedi#usages_command = "<leader>fu"
 let g:jedi#completions_command = ""
 let g:jedi#rename_command = "<leader>r"
@@ -75,6 +78,15 @@ inoremap <silent><expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
 
 au FileType rust nmap <leader>g <Plug>(rust-def)
 au FileType rust nmap <leader>d <Plug>(rust-doc)
+
+au FileType typescript nmap K :TSDoc<Enter>
+au FileType typescript nmap <leader>gd :TSDef<Enter>
+au FileType typescript nmap <leader>fu :TSRefs<Enter>
+"
+au BufRead,BufNewFile *.vue set filetype=html
+au BufRead,BufNewFile *.svelte set filetype=html
+
+let g:go_fmt_command = "gofmt"
 
 "======================================================================
 " Primary Settings

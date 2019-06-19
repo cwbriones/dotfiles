@@ -2,7 +2,7 @@ path=(
     # Homebrew executables
     # The output of this (slow) command:
     # $(brew --prefix coreutils)/libexec/gnubin
-    /usr/local/opt/coreutils/libexec/gnubin
+    # /usr/local/opt/coreutils/libexec/gnubin
     /usr/local/bin
     /usr/local/sbin
     # Standard locations
@@ -15,6 +15,7 @@ path=(
     $GOPATH/bin
     # JS executables
     $HOME/.config/yarn/global/node_modules/.bin
+    $HOME/.poetry/bin
     $path
 )
 
