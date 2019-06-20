@@ -2,12 +2,7 @@
 #
 # Executes commands at the start of an interactive session.
 #
-export PROJECTS="$HOME/dev"
 export DOTFILES="$HOME/dotfiles"
-export PROJECTS="$HOME/Documents/dev"
-
-export GOPATH="$PROJECTS/go"
-# export DYLD_FORCE_FLAT_NAMESPACE=1
 
 # All of our zsh files
 typeset -U config_files

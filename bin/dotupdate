@@ -4,7 +4,8 @@
 #
 # `dot` handles installation, updates, things like that. Run it periodically
 # to make sure you're on the latest and greatest.
-export DOTFILES=$HOME/dotfiles
+cd "$(dirname "$0")/.."
+DOTFILES_ROOT=$(pwd -P)
 
 # Set macOS defaults
 # $DOTFILES/macos/set-defaults.sh

@@ -3,20 +3,25 @@
 "============================================================================
 let mapleader = ","
 
-nnoremap <leader>d :action QuickJavaDoc<CR>
-nnoremap <leader>f :action GotoFile<CR>
-vmap <C-p> :action GotoClass<CR>
+nnoremap K  :action QuickJavaDoc<CR>
+nnoremap <leader>gd  :action GotoDeclaration<CR>
+nnoremap <leader>rn :action RenameElement<CR>
+nnoremap <leader>fu :action FindUsages<CR>
+vmap <C-p> :action RecentFiles<CR>
+vmap <C-P> :action GotoClass<CR>
 remap <leader>sv :source ~/.ideavimrc<CR>
 
 nnoremap / :action Find<CR>
 nnoremap n :action FindNext<CR>
 nnoremap N :action FindPrevious<CR>
- 
+
 nnoremap U :action $Redo<CR>
-nnoremap <C-p> :action RecentFiles<CR>
 nnoremap <F3> :action FileStructurePopup<CR>
 
-" nnoremap / :action Find<CR>
+nnoremap <C-o> :action JumpToLastChange<CR>
+nnoremap <C-i> :action JumpToNextChange<CR>
+
 " nnoremap ; :action AceJumpAction<CR>
 " nnoremap <Space>d :action CloseContent<CR>
 " nnoremap <Space>k :action FileStructurePopup<CR>
+

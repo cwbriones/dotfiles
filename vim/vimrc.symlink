@@ -6,24 +6,26 @@ call plug#begin('~/.vim/bundle')
 
 " General Niceities
 Plug 'Yggdroot/indentLine'
-Plug 'ctrlpvim/ctrlp.vim'
 Plug 'godlygeek/tabular'
 Plug 'scrooloose/nerdtree'
 Plug 'simnalamburt/vim-mundo'
 Plug 'tomtom/tcomment_vim'
-Plug 'tpope/vim-fugitive'
-Plug 'vim-airline/vim-airline'
+Plug 'tpope/vim-fugitive', {'tag' : 'v2.3'}
+Plug 'vim-airline/vim-airline', {'commit' : '3abbfabf55'}
 Plug 'w0rp/ale'
 
 " Language support
-Plug 'cespare/vim-toml'
-Plug 'elixir-lang/vim-elixir'
-Plug 'slashmili/alchemist.vim'
+Plug 'fatih/vim-go', {'tag': 'v1.19'}
+Plug 'leafgarland/typescript-vim'
 Plug 'rust-lang/rust.vim'
 Plug 'vim-python/python-syntax'
-Plug 'leafgarland/typescript-vim'
-Plug 'fatih/vim-go', {'tag': 'v1.19'}
+Plug 'cespare/vim-toml'
+
+Plug '/usr/local/opt/fzf'
+Plug 'junegunn/fzf.vim'
 " -----------------------------------------------------------------------------------------------------
+" Plug 'elixir-lang/vim-elixir'
+" Plug 'slashmili/alchemist.vim'
 " Plug 'ElmCast/elm-vim'
 " Plug 'eagletmt/ghcmod-vim'
 " Plug 'eagletmt/neco-ghc'
@@ -52,6 +54,9 @@ Plug 'zchee/deoplete-go', {'do': 'make'}
 Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
 call plug#end()
 
+" FIXME: Install this and possibly add to vim/install.sh
+" let g:python3_host_prog = expand('~/.nvim-venv/bin/python') " Python 3
+
 " This implicitly enables syntax and filetype
 " filetype plugin indent on
 
@@ -59,7 +64,11 @@ call plug#end()
 let g:deoplete#enable_at_startup = 1
 
 " let g:deoplete#sources#rust#disable_keymap=1
+" FIXME: What is this?
 let g:racer_experimental_compiler=1
+
+" Python
+let python_highlight_all = 1
 
 let g:deoplete#sources#jedi#show_docstring = 1
 let g:jedi#completions_enabled = 0
@@ -71,13 +80,18 @@ let g:jedi#usages_command = "<leader>fu"
 let g:jedi#completions_command = ""
 let g:jedi#rename_command = "<leader>r"
 
+" Golang
+let g:deoplete#sources#go#gocode_binary=$GOPATH.'/bin/gocode'
+let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const']
+nnoremap <leader>r :GoRename<cr>
+
 " Ctrl-Space: summon FULL (synced) autocompletion
 inoremap <silent><expr> <C-Space> deoplete#mappings#manual_complete()
 inoremap <silent><expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 inoremap <silent><expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
 
-au FileType rust nmap <leader>g <Plug>(rust-def)
-au FileType rust nmap <leader>d <Plug>(rust-doc)
+au FileType rust nmap <leader>gd <Plug>(rust-def)
+au FileType rust nmap <leader>K <Plug>(rust-doc)
 
 au FileType typescript nmap K :TSDoc<Enter>
 au FileType typescript nmap <leader>gd :TSDef<Enter>
@@ -91,6 +105,10 @@ let g:go_fmt_command = "gofmt"
 "======================================================================
 " Primary Settings
 "======================================================================
+
+" Temporary flag to enable mouse
+" See https://github.com/neovim/neovim/issues/6082
+set mouse=a
 
 " Limit syntax highlighting
 set synmaxcol=150
@@ -113,12 +131,13 @@ set cursorline
 set laststatus=2
 set foldenable
 set foldlevel=99
+set foldmethod=syntax
 
 set completeopt=menuone,preview
 let pumheight=15
 
 " Global tab and indentation settings
-set lcs=tab:>-
+set listchars="eol:$,tab:»"
 set tabstop=4
 set softtabstop=4
 set shiftwidth=4
@@ -155,10 +174,10 @@ set noerrorbells
 " Appearance
 "======================================================================
 
-if strftime("%H") >= 6 && strftime("%H") <= 17
-    let fullcolor_colorscheme="base16-solarized-light"
-else
+if $DARK_MODE
     let fullcolor_colorscheme="base16-solarized-dark"
+else
+    let fullcolor_colorscheme="base16-solarized-light"
 endif
 
 if $COLORTERM == 'gnome-terminal'
@@ -169,7 +188,7 @@ if has("nvim") && $TERM == 'xterm-256color'
 endif
 if has("gui_running")
     set lines=60
-    set columns=80
+    set columns=100
 
     if has("win32")
         set guifont=Consolas:h11
@@ -177,7 +196,7 @@ if has("gui_running")
         set guifont=Inconsolata\ for\ Powerline:h18
         set macligatures
     else
-        set guifont=Inconsolata\ for\ Powerline\ Bold\ 12
+        set guifont=Inconsolata\ for\ Powerline\ 12
     endif
     execute "colorscheme ".fullcolor_colorscheme
     set guioptions=aegimrLtT "Put gvim into fullscreen"
@@ -185,12 +204,8 @@ if has("gui_running")
 elseif has("nvim")
     execute "colorscheme ".fullcolor_colorscheme
 else
-    colorscheme jellybeans
+    colorscheme solarized
 endif
-
-" Visual indicator of more than 80 columns changed to red
-" highlight ColorColumn ctermbg=red
-highlight ColorColumn guibg=red
 
 " Visual indicator of extraneous whitespace
 highlight ExtraWhitespace ctermbg=red guibg=red
@@ -201,37 +216,13 @@ command! Clean execute "%s/\\s\\+$//g"
 " Function Definitions
 "======================================================================
 
-function! ToggleToolbars()
-    if &guioptions == 'aegimrLtT'
-        set guioptions=aci
-    else
-        set guioptions=aegimrLtT
-        set lines=60
-        set columns=80
-    endif
-endfunction
-
-function! ToggleFullScreen()
-    if has("Mac")
-        if &fu == 1
-            set nofu
-            set lines=50
-            set columns=80
-        else
-            set fu
-        endif
-    else
-        call ToggleToolbars()
-        call system("wmctrl -i -r ".v:windowid." -b toggle,fullscreen")
-   endif
-    redraw
-endfunction
-
-function! ToggleColorColumn()
+function! ToggleGuidelines()
     if &colorcolumn == 101
         set colorcolumn=0
+        execute ':IndentLinesDisable'
     else
         set colorcolumn=101
+        execute ':IndentLinesEnable'
     endif
 endfunction
 
@@ -246,8 +237,7 @@ nmap <D-k> gk
 nmap <D-4> g$
 nmap <D-6> g^
 
-command! -nargs=+ -complete=file -bar Rg silent! grep! <args>|cwindow|redraw!
-nnoremap \ :Rg<SPACE>
+autocmd Filetype python setlocal fo+=r
 
 " ===================================================================
 " Key Mappings
@@ -255,17 +245,26 @@ nnoremap \ :Rg<SPACE>
 
 let mapleader = ","
 map  <leader>td <Plug>TaskList
+nmap <leader>a: :Tabularize /:<CR>
 nmap <leader>a= :Tabularize /=<CR>
 vmap <leader>a: :Tabularize /:<CR>
+vmap <leader>a= :Tabularize /=<CR>
 vmap <leader>a; :Tabularize /::<CR>
 vmap <leader>a- :Tabularize /-><CR>
-nmap <silent> <leader>ff :CtrlP<CR>
-nmap <silent> <leader>fb :CtrlPMRU<CR>
 nmap <silent> <leader>ev :e $MYVIMRC<CR>
 nmap <silent> <leader>sv :so $MYVIMRC<CR>
-nnoremap <leader>f :CtrlP<CR>
-nnoremap <leader>F :CtrlPCurWD<CR>
 nnoremap <leader>w <C-w>v<C-w>l
+
+" FZF
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   <bang>0 ? 'rg --column --line-number --no-heading --color=always --smart-case '.<q-args>
+  \           : 'rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
+  \   fzf#vim#with_preview('right:50%:hidden', '?'),
+  \   0)
+nnoremap <C-p> :Files<CR>
+noremap \ :Rg 
+noremap \\ :Rg! 
 
 " <F1> is mapped to vim help by the OS
 noremap <F2> :lope<CR>
@@ -273,7 +272,7 @@ noremap <F3> :NERDTreeToggle<CR>
 
 " Clear recent search
 noremap <F5> :set hlsearch!<CR>
-noremap <F6> :call ToggleColorColumn()<CR>
+noremap <F6> :call ToggleGuidelines()<CR>
 noremap <F7> :MundoToggle<CR>
 inoremap jj <ESC>
 
@@ -285,12 +284,24 @@ noremap <leader>P "+p
 noremap <leader>fi :lope<CR>
 noremap <leader>cc :set cursorline!<CR>
 noremap <leader>qf :cope<CR>
-noremap <leader>x  :Explore<CR>
+noremap <leader>x :Explore<CR>
+
+" See https://vim.fandom.com/wiki/Moving_lines_up_or_down#Mappings_to_move_lines
+nnoremap <M-j> :m .+1<CR>==
+nnoremap <M-k> :m .-2<CR>==
+inoremap <M-j> <Esc>:m .+1<CR>==gi
+inoremap <M-k> <Esc>:m .-2<CR>==gi
+vnoremap <M-j> :m '>+1<CR>gv=gv
+vnoremap <M-k> :m '<-2<CR>gv=gv<Paste>
 
 " ===================================================================
 " Plugin Settings
 " ===================================================================
 
+" NERDTree
+let NERDTreeIgnore = ['\.pyc$']
+" Automatically open NERDTree if no files specified
+" autocmd vimenter * if !argc() | NERDTree | endif
 let g:erlang_folding=1
 
 " Airline
@@ -308,16 +319,11 @@ if !exists("g:airline_symbols")
     let g:airline_symbols.whitespace = 'Ξ'
 endif
 
-" RipGrep
-" Use rg in Ctrl-P for listing files and over grep.
-if executable("rg")
-    set grepprg=rg\ --vimgrep\ --no-heading
-    set grepformat=%f:%l:%c:%m,%f:%l:%m
-
-    let g:ctrlp_user_command='rg --files --color never %s'
-    let g:ctrlp_user_caching=1
+" There's currently a bug in airline that doesn't play well with fugitive
+" when both are enabled, and I'd much rather have diff still around.
+if has("nvim")
+    let g:airline#extensions#branch#enabled = 0
 endif
-let g:ctrlp_cmd="CtrlPCurWD"
 
 let g:python_host_skip_check=1
 
@@ -331,6 +337,9 @@ let airline#extensions#ale#error_symbol = '⨉ '
 let airline#extensions#ale#warning_symbol = '⚠ '
 let g:airline#extensions#ale#enabled = 1
 
-" Temporary flag to enable mouse
-" See https://github.com/neovim/neovim/issues/6082
-set mouse=a
+" Load bindings that aren't synced to .dotfiles (e.g. work config)
+let local_vimrc = expand('~/.localvimrc')
+
+if filereadable(local_vimrc)
+    exe 'source' local_vimrc
+endif
