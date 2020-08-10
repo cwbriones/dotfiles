@@ -38,3 +38,9 @@ function cd {
         source venv/bin/activate
     fi
 }
+
+unsetopt interactive_comments
+
+autoload -Uz run-help
+unalias run-help
+alias help=run-help

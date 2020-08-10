@@ -6,4 +6,4 @@ rgvi() {
     fi
 }
 
-export FZF_DEFAULT_COMMAND='rg --files --hidden'
+export FZF_DEFAULT_COMMAND='rg --files'
