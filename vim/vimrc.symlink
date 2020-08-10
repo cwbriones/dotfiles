@@ -1,8 +1,13 @@
-"vim: set syntax=vim:
-"======================================================================
+"vim: set syntax=vim"
+"
+"use hyper:
 " Plugins managed by vim-plug
 "======================================================================
 call plug#begin('~/.vim/bundle')
+let mapleader = ","
+
+let g:python3_host_prog = expand('~/.venvs/neovim/bin/python')
+let g:python_host_skip_check=1
 
 " General Niceities
 Plug 'Yggdroot/indentLine'
@@ -10,97 +15,83 @@ Plug 'godlygeek/tabular'
 Plug 'scrooloose/nerdtree'
 Plug 'simnalamburt/vim-mundo'
 Plug 'tomtom/tcomment_vim'
-Plug 'tpope/vim-fugitive', {'tag' : 'v2.3'}
-Plug 'vim-airline/vim-airline', {'commit' : '3abbfabf55'}
-Plug 'w0rp/ale'
+Plug 'tpope/vim-fugitive'
+Plug 'vim-airline/vim-airline'
+Plug 'junegunn/fzf.vim'
+Plug '/usr/local/opt/fzf'
+Plug 'justinmk/vim-sneak'
 
-" Language support
-Plug 'fatih/vim-go', {'tag': 'v1.19'}
+" Completion
+Plug 'neoclide/coc.nvim', {'branch' : 'release'}
+
+" Additional language support
+Plug 'fatih/vim-go'
+
+" Language syntax support
 Plug 'leafgarland/typescript-vim'
 Plug 'rust-lang/rust.vim'
 Plug 'vim-python/python-syntax'
 Plug 'cespare/vim-toml'
-
-Plug '/usr/local/opt/fzf'
-Plug 'junegunn/fzf.vim'
-" -----------------------------------------------------------------------------------------------------
-" Plug 'elixir-lang/vim-elixir'
-" Plug 'slashmili/alchemist.vim'
-" Plug 'ElmCast/elm-vim'
-" Plug 'eagletmt/ghcmod-vim'
-" Plug 'eagletmt/neco-ghc'
-" Plug 'tpope/vim-abolish'
-" Plug 'vim-erlang/vim-erlang-compiler'
-" Plug 'vim-erlang/vim-erlang-omnicomplete'
+Plug 'udalov/kotlin-vim'
 
 " Colorschemes
+Plug 'joshdick/onedark.vim'
 Plug 'chriskempson/base16-vim'
-Plug 'mkarmona/colorsbox'
 Plug 'morhetz/gruvbox'
+Plug 'arcticicestudio/nord-vim'
 
-" Completion
-if has('nvim')
-    Plug 'Shougo/deoplete.nvim', {'do' : ':UpdateRemotePlugins'}
-else
-    Plug 'Shougo/deoplete.nvim'
-    Plug 'roxma/nvim-yarp'
-    Plug 'roxma/vim-hug-neovim-rpc'
-endif
-
-Plug 'davidhalter/jedi-vim'
-Plug 'zchee/deoplete-jedi'
-Plug 'racer-rust/vim-racer'
-Plug 'zchee/deoplete-go', {'do': 'make'}
-Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
 call plug#end()
-
-" FIXME: Install this and possibly add to vim/install.sh
-" let g:python3_host_prog = expand('~/.nvim-venv/bin/python') " Python 3
-
-" This implicitly enables syntax and filetype
-" filetype plugin indent on
-
-" Load on nothing
-let g:deoplete#enable_at_startup = 1
-
-" let g:deoplete#sources#rust#disable_keymap=1
-" FIXME: What is this?
-let g:racer_experimental_compiler=1
 
 " Python
 let python_highlight_all = 1
 
-let g:deoplete#sources#jedi#show_docstring = 1
-let g:jedi#completions_enabled = 0
-let g:jedi#goto_command = "<leader>gd"
-let g:jedi#goto_assignments_command = ""
-let g:jedi#goto_definitions_command = ""
-let g:jedi#documentation_command = "K"
-let g:jedi#usages_command = "<leader>fu"
-let g:jedi#completions_command = ""
-let g:jedi#rename_command = "<leader>r"
+" vim-go provides convenient mappings to goimports, gofmt, staticcheck, etc.
+" since coc is used for completion disable gopls and its vim-go mappings
+let g:go_gopls_enabled = 0
+let g:go_doc_keywordprg_enabled = 0
+let g:go_def_mapping_enabled = 0
+let g:go_imports_autosave = 0
+let g:go_fmt_command = "gofmt"
+au FileType go nmap <leader>i :GoImports<cr>
 
-" Golang
-let g:deoplete#sources#go#gocode_binary=$GOPATH.'/bin/gocode'
-let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const']
-nnoremap <leader>r :GoRename<cr>
+"======================================================================
+" Completion
+"======================================================================
+" Most of these are taken verbatim from
+" https://github.com/neoclide/coc.nvim#example-vim-configuration
 
-" Ctrl-Space: summon FULL (synced) autocompletion
-inoremap <silent><expr> <C-Space> deoplete#mappings#manual_complete()
+set cmdheight=2
+set updatetime=300
+" C-Space: summon autocompletion
+inoremap <silent><expr> <C-Space> coc#refresh()
+" selection completion using tab
 inoremap <silent><expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 inoremap <silent><expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
+" confirm completion with <cr>.
+if exists('*complete_info')
+  inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+else
+  inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+endif
+nmap <leader>rn <Plug>(coc-rename)
+nmap <leader>gd <Plug>(coc-definition)
+nmap <leader>gy <Plug>(coc-type-definition)
+nmap <leader>gi <Plug>(coc-implementation)
+nmap <leader>gr <Plug>(coc-references)
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+      call CocAction('doHover')
+  endif
+endfunction
 
-au FileType rust nmap <leader>gd <Plug>(rust-def)
-au FileType rust nmap <leader>K <Plug>(rust-doc)
+" Highlight the symbol and its references when holding the cursor.
+autocmd CursorHold * silent call CocActionAsync('highlight')
 
-au FileType typescript nmap K :TSDoc<Enter>
-au FileType typescript nmap <leader>gd :TSDef<Enter>
-au FileType typescript nmap <leader>fu :TSRefs<Enter>
-"
 au BufRead,BufNewFile *.vue set filetype=html
 au BufRead,BufNewFile *.svelte set filetype=html
-
-let g:go_fmt_command = "gofmt"
 
 "======================================================================
 " Primary Settings
@@ -137,6 +128,8 @@ set completeopt=menuone,preview
 let pumheight=15
 
 " Global tab and indentation settings
+set textwidth=120
+
 set listchars="eol:$,tab:»"
 set tabstop=4
 set softtabstop=4
@@ -145,9 +138,6 @@ set expandtab
 set autoindent
 set smarttab
 set smartindent
-let g:indentLine_char='┊'
-let g:indentLine_enabled=0
-let g:indentLine_setColors=0
 
 " Allow backspaces in insert mode
 set backspace=indent,eol,start
@@ -174,11 +164,21 @@ set noerrorbells
 " Appearance
 "======================================================================
 
-if $DARK_MODE
-    let fullcolor_colorscheme="base16-solarized-dark"
-else
-    let fullcolor_colorscheme="base16-solarized-light"
-endif
+let g:indentLine_char='┊'
+let g:indentLine_enabled=0
+let g:indentLine_setColors=0
+
+let fullcolor_colorscheme="onedark"
+" if has("Mac")
+"     let system_theme = trim(system('defaults read -g AppleInterfaceStyle'))
+"     if system_theme == 'Dark'
+"         let fullcolor_colorscheme="base16-solarized-dark"
+"         set bg=dark
+"     else
+"         let fullcolor_colorscheme="base16-solarized-light"
+"         set bg=light
+"     endif
+" endif
 
 if $COLORTERM == 'gnome-terminal'
   set t_Co=256
@@ -212,11 +212,7 @@ highlight ExtraWhitespace ctermbg=red guibg=red
 match ExtraWhitespace /\s\+$/
 command! Clean execute "%s/\\s\\+$//g"
 
-"======================================================================
-" Function Definitions
-"======================================================================
-
-function! ToggleGuidelines()
+function! ToggleVerticalRules()
     if &colorcolumn == 101
         set colorcolumn=0
         execute ':IndentLinesDisable'
@@ -227,23 +223,11 @@ function! ToggleGuidelines()
 endfunction
 
 " For easy editing of plain text
-command! -nargs=* Plain set wrap linebreak nolist showbreak=…
-vmap <D-j> gj
-vmap <D-k> gk
-vmap <D-4> g$
-vmap <D-6> g^
-nmap <D-j> gj
-nmap <D-k> gk
-nmap <D-4> g$
-nmap <D-6> g^
-
 autocmd Filetype python setlocal fo+=r
 
 " ===================================================================
 " Key Mappings
 " ===================================================================
-
-let mapleader = ","
 map  <leader>td <Plug>TaskList
 nmap <leader>a: :Tabularize /:<CR>
 nmap <leader>a= :Tabularize /=<CR>
@@ -272,7 +256,7 @@ noremap <F3> :NERDTreeToggle<CR>
 
 " Clear recent search
 noremap <F5> :set hlsearch!<CR>
-noremap <F6> :call ToggleGuidelines()<CR>
+noremap <F6> :call ToggleVerticalRules()<CR>
 noremap <F7> :MundoToggle<CR>
 inoremap jj <ESC>
 
@@ -287,55 +271,50 @@ noremap <leader>qf :cope<CR>
 noremap <leader>x :Explore<CR>
 
 " See https://vim.fandom.com/wiki/Moving_lines_up_or_down#Mappings_to_move_lines
-nnoremap <M-j> :m .+1<CR>==
-nnoremap <M-k> :m .-2<CR>==
-inoremap <M-j> <Esc>:m .+1<CR>==gi
-inoremap <M-k> <Esc>:m .-2<CR>==gi
-vnoremap <M-j> :m '>+1<CR>gv=gv
-vnoremap <M-k> :m '<-2<CR>gv=gv<Paste>
+" nnoremap <M-j> :m .+1<CR>==
+" nnoremap <M-k> :m .-2<CR>==
+" inoremap <M-j> <Esc>:m .+1<CR>==gi
+" inoremap <M-k> <Esc>:m .-2<CR>==gi
+" vnoremap <M-j> :m '>+1<CR>gv=gv
+" vnoremap <M-k> :m '<-2<CR>gv=gv<Paste>
+
+command! -nargs=* Plain set wrap linebreak nolist showbreak=…
+vmap <D-j> gj
+vmap <D-k> gk
+vmap <D-4> g$
+vmap <D-6> g^
+nmap <D-j> gj
+nmap <D-k> gk
+nmap <D-4> g$
+nmap <D-6> g^
 
 " ===================================================================
-" Plugin Settings
+" Additional Plugin Settings
 " ===================================================================
 
-" NERDTree
 let NERDTreeIgnore = ['\.pyc$']
-" Automatically open NERDTree if no files specified
-" autocmd vimenter * if !argc() | NERDTree | endif
-let g:erlang_folding=1
 
 " Airline
 if !exists("g:airline_symbols")
     let g:airline_symbols = {}
-    let g:airline_left_sep = ''
-    let g:airline_left_alt_sep = ''
-    let g:airline_right_sep = ''
-    let g:airline_right_alt_sep = ''
+    let g:airline_left_sep = ' '
+    let g:airline_left_alt_sep = '|'
+    let g:airline_right_sep = ' '
+    let g:airline_right_alt_sep = '|'
     let g:airline_symbols.branch = ''
     let g:airline_symbols.readonly = ''
     let g:airline_symbols.paste = 'ρ'
-    let g:airline_symbols.linenr = ''
+    let g:airline_symbols.linenr = ''
     let g:airline_symbols.maxlinenr = ''
-    let g:airline_symbols.whitespace = 'Ξ'
 endif
+let g:airline_skip_empty_sections = 1
+let g:airline#extensions#whitespace#enabled = 0
 
 " There's currently a bug in airline that doesn't play well with fugitive
 " when both are enabled, and I'd much rather have diff still around.
-if has("nvim")
-    let g:airline#extensions#branch#enabled = 0
-endif
-
-let g:python_host_skip_check=1
-
-" Ale Error Checker
-let g:ale_sign_error = '!!'
-let g:ale_sign_warning = '>>'
-let g:ale_lint_on_enter = 0
-let g:ale_statusline_format = ['⨉ %d', '⚠ %d', '⬥ ok']
-let g:ale_lint_on_text_changed = 'never'
-let airline#extensions#ale#error_symbol = '⨉ '
-let airline#extensions#ale#warning_symbol = '⚠ '
-let g:airline#extensions#ale#enabled = 1
+" if has("nvim")
+" let g:airline#extensions#branch#enabled = 0
+" endif
 
 " Load bindings that aren't synced to .dotfiles (e.g. work config)
 let local_vimrc = expand('~/.localvimrc')

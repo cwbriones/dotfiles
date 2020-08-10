@@ -1,0 +1,12 @@
+{
+    "languageserver" : {
+        "go" : {
+            "command" : "$GOPATH/bin/gopls",
+            "rootPatterns" : ["go.mod", ".git"],
+            "filetypes" : ["go"]
+        }
+    },
+    "diagnostic" : {
+        "errorSign" : "✖︎"
+    }
+}
