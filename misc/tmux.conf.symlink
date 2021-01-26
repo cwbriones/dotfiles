@@ -1,0 +1,24 @@
+# allow reload after startup
+bind r source-file ~/.tmux.conf
+
+# Theming
+set -g default-terminal "xterm-256color"
+set -g status-style bg=magenta
+set -ga terminal-overrides ",xterm-256color:Tc"
+# By default tmux adds a delay to escape which is annoying
+# while working in vim.
+set -s escape-time 0
+
+set -g mouse on
+
+# bindings for splits
+bind | split-window -h
+bind - split-window -v
+unbind '"'
+unbind %
+
+# bindings for split movement
+bind h select-pane -L
+bind l select-pane -R
+bind k select-pane -U
+bind j select-pane -D
