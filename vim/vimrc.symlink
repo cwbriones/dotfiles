@@ -17,9 +17,10 @@ Plug 'simnalamburt/vim-mundo'
 Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-fugitive'
 Plug 'vim-airline/vim-airline'
+Plug 'junegunn/fzf', { 'do' : { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-Plug '/usr/local/opt/fzf'
 Plug 'justinmk/vim-sneak'
+Plug 'dag/vim-fish'
 
 " Completion
 Plug 'neoclide/coc.nvim', {'branch' : 'release'}
@@ -62,6 +63,7 @@ au FileType go nmap <leader>i :GoImports<cr>
 
 set cmdheight=2
 set updatetime=300
+set shortmess+=c
 " C-Space: summon autocompletion
 inoremap <silent><expr> <C-Space> coc#refresh()
 " selection completion using tab
@@ -77,18 +79,28 @@ nmap <leader>rn <Plug>(coc-rename)
 nmap <leader>gd <Plug>(coc-definition)
 nmap <leader>gy <Plug>(coc-type-definition)
 nmap <leader>gi <Plug>(coc-implementation)
-nmap <leader>gr <Plug>(coc-references)
+nmap <leader>fu <Plug>(coc-references)
+nmap <leader>qa <Plug>(coc-codeaction)
+nmap <leader>qf <Plug>(coc-fix-current)
+
+nmap <leader>gp <Plug>(coc-diagnostic-prev)
+nmap <leader>gg <Plug>(coc-diagnostic-next)
+
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
     execute 'h '.expand('<cword>')
+  elseif coc#float#has_float()
+    call coc#float#close_all()
   else
-      call CocAction('doHover')
+    call CocAction('doHover')
   endif
 endfunction
 
 " Highlight the symbol and its references when holding the cursor.
 autocmd CursorHold * silent call CocActionAsync('highlight')
+highlight link CocHighlightText IncSearch
+highlight Cursor guifg=white guibg=black
 
 au BufRead,BufNewFile *.vue set filetype=html
 au BufRead,BufNewFile *.svelte set filetype=html
@@ -166,24 +178,24 @@ set noerrorbells
 
 let g:indentLine_char='┊'
 let g:indentLine_enabled=0
-let g:indentLine_setColors=0
+let g:indentLine_setColors=1
 
-let fullcolor_colorscheme="onedark"
-" if has("Mac")
-"     let system_theme = trim(system('defaults read -g AppleInterfaceStyle'))
-"     if system_theme == 'Dark'
-"         let fullcolor_colorscheme="base16-solarized-dark"
-"         set bg=dark
-"     else
-"         let fullcolor_colorscheme="base16-solarized-light"
-"         set bg=light
-"     endif
-" endif
+let fullcolor_colorscheme="gruvbox"
+if has("Mac")
+    let system_theme = trim(system('defaults read -g AppleInterfaceStyle'))
+    if system_theme == 'Dark'
+        set bg=dark
+    else
+        set bg=dark
+    endif
+endif
 
 if $COLORTERM == 'gnome-terminal'
   set t_Co=256
 endif
-if has("nvim") && $TERM == 'xterm-256color'
+if exists('+termguicolors')
+  let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
+  let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
   set termguicolors
 endif
 if has("gui_running")
@@ -222,8 +234,31 @@ function! ToggleVerticalRules()
     endif
 endfunction
 
+function! CocToggle()
+    if !exists('b:coc_enabled')
+        let b:coc_enabled = 1
+    endif
+    if b:coc_enabled == 1
+        let b:coc_enabled = 0
+        call coc#float#close_all()
+        execute ':CocDisable'
+    else
+        let b:coc_enabled = 1
+        execute ':CocEnable'
+    endif
+endfunction
+
 " For easy editing of plain text
 autocmd Filetype python setlocal fo+=r
+
+" Disabled for now. Toggle relativenumber when in normal mode.
+" set number relativenumber
+"
+" augroup numbertoggle
+"   autocmd!
+"   autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+"   autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
+" augroup END
 
 " ===================================================================
 " Key Mappings
@@ -239,6 +274,12 @@ nmap <silent> <leader>ev :e $MYVIMRC<CR>
 nmap <silent> <leader>sv :so $MYVIMRC<CR>
 nnoremap <leader>w <C-w>v<C-w>l
 
+" Quickly move between splits.
+nnoremap <C-j> <C-w><C-j>
+nnoremap <C-k> <C-w><C-k>
+nnoremap <C-l> <C-w><C-l>
+nnoremap <C-h> <C-w><C-h>
+
 " FZF
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
@@ -251,10 +292,19 @@ noremap \ :Rg
 noremap \\ :Rg! 
 
 " <F1> is mapped to vim help by the OS
-noremap <F2> :lope<CR>
+function! ToggleLocationList()
+  let g:wi = getloclist(2, {'winid' : 1})
+  if g:wi != {}
+    lclose
+  else
+    lopen
+  endif
+endfunction
+noremap <F2> <ESC>:call ToggleLocationList()<CR>
 noremap <F3> :NERDTreeToggle<CR>
 
 " Clear recent search
+noremap <F4> :call CocToggle()<CR>
 noremap <F5> :set hlsearch!<CR>
 noremap <F6> :call ToggleVerticalRules()<CR>
 noremap <F7> :MundoToggle<CR>
@@ -267,7 +317,6 @@ noremap <leader>P "+p
 
 noremap <leader>fi :lope<CR>
 noremap <leader>cc :set cursorline!<CR>
-noremap <leader>qf :cope<CR>
 noremap <leader>x :Explore<CR>
 
 " See https://vim.fandom.com/wiki/Moving_lines_up_or_down#Mappings_to_move_lines

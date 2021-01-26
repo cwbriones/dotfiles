@@ -1,12 +1,28 @@
 {
+    "coc.preferences" : {
+        "formatOnSaveFiletypes" : []
+    },
     "languageserver" : {
         "go" : {
             "command" : "$GOPATH/bin/gopls",
             "rootPatterns" : ["go.mod", ".git"],
-            "filetypes" : ["go"]
+            "filetypes" : ["go"],
+            "initializationOptions": {
+                "staticcheck" : true
+            },
+            "analyzers.nonewvars" : true
         }
     },
     "diagnostic" : {
-        "errorSign" : "✖︎"
-    }
+        "errorSign" : "✖︎",
+        "warningSign" : "⚠︎"
+    },
+    "rust-analyzer.diagnostics.disabled" : [
+            "unresolved-proc-macro"
+    ],
+    "rust-analyzer.rustfmt.overrideCommand" : "cargo +nightly fmt",
+    "rust-analyzer.updates.channel" : "stable",
+    "suggest.detailMaxLength" : 60,
+    "python.pythonPath" : "/Users/cwbriones/.venvs/neovim/bin/python",
+    "elixirLS.dialyzerEnabled": false
 }
