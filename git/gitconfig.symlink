@@ -3,7 +3,7 @@
     name = Christian Briones
     email = cwbriones@gmail.com
 [core]
-    editor = vim
+    editor = nvim
     excludesfile = ~/.gitignore
     preloadIndex = true
     pager = diff-so-fancy | less --tabs=4 -RFX
@@ -25,7 +25,7 @@
     pu = pull
     co = checkout
     ci = commit
-    br = branch
+    br = !git branch --sort=committerdate --format='%(HEAD) %(color:yellow)%(objectname:short)%(color:reset) %(refname:short) (%(color:green)%(committerdate:relative)%(color:reset))'
     rb = rebase
     pk = cherry-pick
     stat = status -s
@@ -36,33 +36,37 @@
     stash-all = stash --include-untracked
     this = !git init && git add . && git commit -m \"initial commit\"
 
-    ## fancy log
+    ## log
     hist = log --graph --pretty=format:'%Cred%h%Creset - %C(yellow)%d%Creset %s %Cgreen (%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
     changes = diff-tree --no-commit-id --name-status -r
     changed = "!git diff \"$1\"^ \"$1\" #"
 
-    ## common diffs
+    ## diff
     diffp = diff HEAD^
     diffs = diff --staged
     diffn = diff --name-only
 
-    ## useful for rebasing
+    ## rebase
     abort = rebase --abort
-    cont  = rebase --continue
+    cont = rebase --continue
+    continue  = rebase --continue
     conflicts = diff --name-only --diff-filter=U
     ## update and rebase onto origin/master.HEAD
-    rbm = ! git co master && git pull && git co - && git rb master
-    rbim = ! git co master && git pull && git co - && git rb -i master
+    rbi = ! git fetch origin && git rebase -i origin/$(git rev-parse --abbrev-ref HEAD)
+    rbm = ! git fetch origin master:master && git rebase master
+    rbim = ! git fetch origin master:master && git rebase -i master
 
     #misc
     today = "!git commit --amend --date=\"$(gdate -R)\""
     credit = "!git commit --amend --author=\"$(git config user.name) <$(git config user.email)>\""
-    serve = daemon --reuseaddr --verbose --base-path=. --export-all
-    ready = !git stash && git checkout master && git pull -t
     rekt = !git clean -d -x -f && git reset --hard
     jk = commit -a --amend
+
+    rb-remote = ! git fetch && git merge origin/$(git rev-parse --abbrev-ref HEAD)
+    fork-update = ! git fetch upstream master:master && git co master && git push && git co -
+
 [mergetool "fugitive"]
-    cmd = vim -f -c \"Gvdiff\" \"$MERGED\"
+    cmd = nvim -f -c \"Gvdiff\" \"$MERGED\"
 [mergetool]
     keepBackup = false
     prompt = false
@@ -72,3 +76,5 @@
 # Override defaults on this particular box
 [include]
     path = ~/.localgitconfig
+[dbx]
+	messagedisplayversion = 1
