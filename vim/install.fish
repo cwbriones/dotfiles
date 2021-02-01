@@ -1,6 +1,10 @@
-#!/bin/bash
-set -euo pipefail
-# IFS=$'\n\t'
+#!/usr/bin/env fish
+
+if test -e "~/.vim/autoload/plug.vim"
+    echo "plug.vim not found, downloading."
+    curl -sfLo ~/.vim/autoload/plug.vim --create-dirs \
+        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+end
 
 # Run the plug install process
 echo "Running +PlugUpdate neovim"
@@ -16,7 +20,7 @@ ln -sf "$vimdir/vim.symlink" "$HOME/.config/nvim"
 
 NEOVIM_VENV="neovim"
 
-if ! [[ -e "$VIRTUALENVWRAPPER_DIR/$NEOVIM_VENV/bin/python" ]]; then
+if not test -e "$VIRTUALENVWRAPPER_DIR/$NEOVIM_VENV/bin/python"
     echo "Creating virtualenv for neovim."
     cd $VIRTUALENVWRAPPER_DIR
     virtualenv -p python3 $NEOVIM_VENV
@@ -24,4 +28,4 @@ if ! [[ -e "$VIRTUALENVWRAPPER_DIR/$NEOVIM_VENV/bin/python" ]]; then
     pip3 install neovim
     deactivate
     cd -
-fi
+end
