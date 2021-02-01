@@ -20,15 +20,17 @@ Plug 'vim-airline/vim-airline'
 Plug 'junegunn/fzf', { 'do' : { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'justinmk/vim-sneak'
-Plug 'dag/vim-fish'
+Plug 'mhinz/vim-startify'
 
 " Completion
 Plug 'neoclide/coc.nvim', {'branch' : 'release'}
+Plug 'honza/vim-snippets'
 
 " Additional language support
-Plug 'fatih/vim-go'
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 
 " Language syntax support
+Plug 'dag/vim-fish'
 Plug 'leafgarland/typescript-vim'
 Plug 'rust-lang/rust.vim'
 Plug 'vim-python/python-syntax'
@@ -58,8 +60,7 @@ au FileType go nmap <leader>i :GoImports<cr>
 "======================================================================
 " Completion
 "======================================================================
-" Most of these are taken verbatim from
-" https://github.com/neoclide/coc.nvim#example-vim-configuration
+" See https://github.com/neoclide/coc.nvim#example-vim-configuration
 
 set cmdheight=2
 set updatetime=300
@@ -75,17 +76,19 @@ if exists('*complete_info')
 else
   inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 endif
-nmap <leader>rn <Plug>(coc-rename)
-nmap <leader>gd <Plug>(coc-definition)
-nmap <leader>gy <Plug>(coc-type-definition)
-nmap <leader>gi <Plug>(coc-implementation)
-nmap <leader>fu <Plug>(coc-references)
-nmap <leader>qa <Plug>(coc-codeaction)
-nmap <leader>qf <Plug>(coc-fix-current)
+nmap <silent> gD <Plug>(coc-declaration)
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+nmap <silent> <leader>gt <Plug>(coc-type-definition)
+nmap <silent> <leader>r <Plug>(coc-rename)
+nmap <silent> <leader>a <Plug>(coc-codeaction)
+nmap <silent> <leader>f <Plug>(coc-fix-current)
 
-nmap <leader>gp <Plug>(coc-diagnostic-prev)
-nmap <leader>gg <Plug>(coc-diagnostic-next)
+nmap [d <Plug>(coc-diagnostic-prev)
+nmap ]d <Plug>(coc-diagnostic-next)
 
+nmap <C-K> <Plug>(coc-showSignatureHelp)
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
@@ -109,8 +112,6 @@ au BufRead,BufNewFile *.svelte set filetype=html
 " Primary Settings
 "======================================================================
 
-" Temporary flag to enable mouse
-" See https://github.com/neovim/neovim/issues/6082
 set mouse=a
 
 " Limit syntax highlighting
@@ -156,7 +157,6 @@ set backspace=indent,eol,start
 
 " Search settings
 set incsearch
-set hlsearch
 set smartcase
 set ignorecase
 " Remember lots
@@ -166,10 +166,7 @@ set undolevels=1000
 " I have git for this.
 set nobackup
 set noswapfile
-
 set wildignore+=*.swp,*.back,*.pyc,*.class,*.beam
-" don't beep
-set visualbell
 set noerrorbells
 
 "======================================================================
@@ -181,6 +178,7 @@ let g:indentLine_enabled=0
 let g:indentLine_setColors=1
 
 let fullcolor_colorscheme="gruvbox"
+let g:gruvbox_constrast_dark="hard"
 if has("Mac")
     let system_theme = trim(system('defaults read -g AppleInterfaceStyle'))
     if system_theme == 'Dark'
@@ -198,33 +196,14 @@ if exists('+termguicolors')
   let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
   set termguicolors
 endif
-if has("gui_running")
-    set lines=60
-    set columns=100
-
-    if has("win32")
-        set guifont=Consolas:h11
-    elseif has("Mac")
-        set guifont=Inconsolata\ for\ Powerline:h18
-        set macligatures
-    else
-        set guifont=Inconsolata\ for\ Powerline\ 12
-    endif
-    execute "colorscheme ".fullcolor_colorscheme
-    set guioptions=aegimrLtT "Put gvim into fullscreen"
-    map <silent> <F11> :call ToggleFullScreen()<CR>
-elseif has("nvim")
-    execute "colorscheme ".fullcolor_colorscheme
-else
-    colorscheme solarized
-endif
+execute "colorscheme ".fullcolor_colorscheme
 
 " Visual indicator of extraneous whitespace
 highlight ExtraWhitespace ctermbg=red guibg=red
 match ExtraWhitespace /\s\+$/
 command! Clean execute "%s/\\s\\+$//g"
 
-function! ToggleVerticalRules()
+function! ToggleRules()
     if &colorcolumn == 101
         set colorcolumn=0
         execute ':IndentLinesDisable'
@@ -233,6 +212,7 @@ function! ToggleVerticalRules()
         execute ':IndentLinesEnable'
     endif
 endfunction
+command! Rules execute 'call ToggleRules()'
 
 function! CocToggle()
     if !exists('b:coc_enabled')
@@ -263,16 +243,24 @@ autocmd Filetype python setlocal fo+=r
 " ===================================================================
 " Key Mappings
 " ===================================================================
-map  <leader>td <Plug>TaskList
+" Quick access to this configuration.
+nmap <silent> <leader>ev :e $MYVIMRC<CR>
+nmap <silent> <leader>sv :so $MYVIMRC<CR>
+
+" Buffer management.
+nnoremap <TAB> :bnext<CR>
+nnoremap <S-TAB> :bprev<CR>
+nnoremap <BS> <C-^>
+
 nmap <leader>a: :Tabularize /:<CR>
 nmap <leader>a= :Tabularize /=<CR>
 vmap <leader>a: :Tabularize /:<CR>
 vmap <leader>a= :Tabularize /=<CR>
 vmap <leader>a; :Tabularize /::<CR>
 vmap <leader>a- :Tabularize /-><CR>
-nmap <silent> <leader>ev :e $MYVIMRC<CR>
-nmap <silent> <leader>sv :so $MYVIMRC<CR>
-nnoremap <leader>w <C-w>v<C-w>l
+
+" Clear recent search.
+nnoremap <silent> <ESC><ESC> :nohls<CR>
 
 " Quickly move between splits.
 nnoremap <C-j> <C-w><C-j>
@@ -280,16 +268,10 @@ nnoremap <C-k> <C-w><C-k>
 nnoremap <C-l> <C-w><C-l>
 nnoremap <C-h> <C-w><C-h>
 
-" FZF
-command! -bang -nargs=* Rg
-  \ call fzf#vim#grep(
-  \   <bang>0 ? 'rg --column --line-number --no-heading --color=always --smart-case '.<q-args>
-  \           : 'rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
-  \   fzf#vim#with_preview('right:50%:hidden', '?'),
-  \   0)
+" File search.
 nnoremap <C-p> :Files<CR>
 noremap \ :Rg 
-noremap \\ :Rg! 
+map  <leader>td :Rg (TODO\|FIXME\|XXX)\(cbriones\)<CR>
 
 " <F1> is mapped to vim help by the OS
 function! ToggleLocationList()
@@ -300,15 +282,13 @@ function! ToggleLocationList()
     lopen
   endif
 endfunction
-noremap <F2> <ESC>:call ToggleLocationList()<CR>
-noremap <F3> :NERDTreeToggle<CR>
 
-" Clear recent search
-noremap <F4> :call CocToggle()<CR>
-noremap <F5> :set hlsearch!<CR>
-noremap <F6> :call ToggleVerticalRules()<CR>
+noremap <F2> :CocDiagnostics<CR>
+noremap <F3> :NERDTreeToggle<CR>
+noremap <F4> :Buffers<CR>
+noremap <F6> :call ToggleRules()<CR>
 noremap <F7> :MundoToggle<CR>
-inoremap jj <ESC>
+" inoremap jj <ESC>
 
 noremap <leader>y "*y
 noremap <leader>p "*p
@@ -371,3 +351,19 @@ let local_vimrc = expand('~/.localvimrc')
 if filereadable(local_vimrc)
     exe 'source' local_vimrc
 endif
+
+let g:ascii = [
+   \ '          ___           ___           ___           ___                       ___',
+   \ '         /\__\         /\  \         /\  \         /\__\          ___        /\__\',
+   \ '        /::|  |       /::\  \       /::\  \       /:/  /         /\  \      /::|  |',
+   \ '       /:|:|  |      /:/\:\  \     /:/\:\  \     /:/  /          \:\  \    /:|:|  |',
+   \ '      /:/|:|  |__   /::\~\:\  \   /:/  \:\  \   /:/__/  ___      /::\__\  /:/|:|__|__',
+   \ '     /:/ |:| /\__\ /:/\:\ \:\__\ /:/__/ \:\__\  |:|  | /\__\  __/:/\/__/ /:/ |::::\__\',
+   \ '     \/__|:|/:/  / \:\~\:\ \/__/ \:\  \ /:/  /  |:|  |/:/  / /\/:/  /    \/__/~~/:/  /',
+   \ '         |:/:/  /   \:\ \:\__\    \:\  /:/  /   |:|__/:/  /  \::/__/           /:/  /',
+   \ '         |::/  /     \:\ \/__/     \:\/:/  /     \::::/__/    \:\__\          /:/  /',
+   \ '         /:/  /       \:\__\        \::/  /       ~~~~         \/__/         /:/  /',
+   \ '         \/__/         \/__/         \/__/                                   \/__/',
+   \]
+let g:startify_custom_header =
+    \ 'startify#pad(g:ascii + startify#fortune#boxed())'

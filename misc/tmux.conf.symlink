@@ -3,13 +3,19 @@ bind r source-file ~/.tmux.conf
 
 # Theming
 set -g default-terminal "xterm-256color"
-set -g status-style bg=magenta
+set -g status-style fg=black,bg=green
+set -g window-status-current-style fg=black,bg=#689d6a
 set -ga terminal-overrides ",xterm-256color:Tc"
+
 # By default tmux adds a delay to escape which is annoying
 # while working in vim.
 set -s escape-time 0
 
-set -g mouse on
+# Toggle mouse
+set -g mouse off
+bind-key m set-option mouse\; display-message "Mouse: #{?mouse,ENABLED,DISABLED}"
+
+set-option -g status-position top
 
 # bindings for splits
 bind | split-window -h
