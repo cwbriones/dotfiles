@@ -18,14 +18,14 @@ ln -sf "$vimdir/vim.symlink" "$HOME/.config/nvim"
 
 # Create a virtualenv so that we don't have to install neovim everywhere.
 
-NEOVIM_VENV="neovim"
-
-if not test -e "$VIRTUALENVWRAPPER_DIR/$NEOVIM_VENV/bin/python"
-    echo "Creating virtualenv for neovim."
-    cd $VIRTUALENVWRAPPER_DIR
-    virtualenv -p python3 $NEOVIM_VENV
-    source $NEOVIM_VENV/bin/activate
-    pip3 install neovim
-    deactivate
-    cd -
-end
+# FIXME: virtualenv needs to be installed.
+# set NEOVIM_VENV "neovim"
+# if not test -e "$VIRTUALENVWRAPPER_DIR/$NEOVIM_VENV/bin/python"
+#     echo "Creating virtualenv for neovim."
+#     cd $VIRTUALENVWRAPPER_DIR
+#     virtualenv -p python3 $NEOVIM_VENV
+#     source $NEOVIM_VENV/bin/activate.fish
+#     pip3 install neovim
+#     deactivate
+#     cd -
+# end
