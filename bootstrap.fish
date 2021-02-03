@@ -16,10 +16,6 @@ function fail
 end
 funcsave fail
 
-set overwrite_all ""
-set backup_all ""
-set skip_all ""
-
 function safelink -a src dst
   set -q overwrite_all || set overwrite_all "false"
   set -q backup_all || set backup_all "false"
@@ -41,15 +37,15 @@ function safelink -a src dst
           case o
             set overwrite true
           case O
-            set overwrite_all true
+            set -g overwrite_all true
           case b
             set backup true
           case B
-            set backup_all true
+            set -g backup_all true
           case s
             set skip true
           case S
-            set skip_all true
+            set -g skip_all true
         end
       end
     end
@@ -107,19 +103,20 @@ echo "  \ \_\  \ \_\/\____/ \ \_\ \_\\"
 echo "   \/_/   \/_/\/___/   \/_/\/_/"
 set_color normal
 
+set -Ux DOTFILES (dirname (pwd)/(status --current-file))
+
 info creating all declared symlinks.
 for f in $DOTFILES/**/*.symlink
     set -l dst ''
     if test (basename "$f") = "config.symlink"
         set dst $HOME/.config/(basename (dirname $f))
+        set dst (string trim -rc "/" "$dst")
     else
         set dst $HOME/.(basename $f .symlink)
     end
     safelink $f $dst
 end
 success links created.
-
-set -Ux DOTFILES (dirname (pwd)/(status --current-file))
 
 info running each install.fish
 for install in $DOTFILES/**/install.fish

@@ -1,8 +1,8 @@
 #!/usr/bin/env fish
 
-if test -e "~/.vim/autoload/plug.vim"
+if not test -e "~/.config/nvim/autoload/plug.vim"
     echo "plug.vim not found, downloading."
-    curl -sfLo ~/.vim/autoload/plug.vim --create-dirs \
+    curl -sfLo ~/.config/nvim/autoload/plug.vim --create-dirs \
         https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 end
 

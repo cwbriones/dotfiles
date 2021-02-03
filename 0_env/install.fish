@@ -1,8 +1,6 @@
 #!/usr/bin/fish
 
 abbr own 'sudo chown -R $USER:$USER-GROUP'
-abbr lsdir 'ls -d */'
-abbr tmux 'tmux -2'
 abbr hist 'history | rg'
 abbr now 'gdate +"%s%3N"'
 abbr datetime 'gdate -Ru'
@@ -10,7 +8,6 @@ abbr vi 'nvim'
 abbr weather 'curl http://wttr.in/98107\?0Q'
 abbr forecast 'curl http://wttr.in/98107'
 abbr moon 'curl http://wttr.in/Moon'
-abbr vi nvim
 
 set -Ux EDITOR 'nvim'
 set -Ux HOMEBREW_NO_ANALYTICS 1
