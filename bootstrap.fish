@@ -3,15 +3,22 @@
 function info
 	echo [(set_color --bold) ' .. ' (set_color normal)] $argv
 end
+funcsave info
 
 function success
 	echo [(set_color --bold green) ' OK ' (set_color normal)] $argv
 end
+funcsave success
 
 function fail
 	echo [(set_color --bold red) 'FAIL' (set_color normal)] $argv
 	exit 1
 end
+funcsave fail
+
+set overwrite_all ""
+set backup_all ""
+set skip_all ""
 
 function safelink -a src dst
   set -q overwrite_all || set overwrite_all "false"
@@ -32,15 +39,15 @@ function safelink -a src dst
 
         switch "$action"
           case o
-            set -l overwrite true
+            set overwrite true
           case O
             set overwrite_all true
           case b
-            set -l backup true
+            set backup true
           case B
             set backup_all true
           case s
-            set -l skip true
+            set skip true
           case S
             set skip_all true
         end
@@ -73,6 +80,23 @@ function safelink -a src dst
 end
 funcsave safelink
 
+function funcdel -a func
+    functions --erase $argv
+    for f in $argv
+        rm "$__fish_config_dir"/functions/"$f".fish
+    end
+end
+
+function cleanup -p $fish_pid
+    funcdel safelink info success fail
+
+    if contains $argv[3] 0
+		echo [(set_color --bold green) ✓ (set_color normal)] "dotfile installation complete."
+    else
+		echo [(set_color --bold red) X (set_color normal)] "dotfile installation failed."
+	end
+end
+
 set_color yellow
 echo "   ___              __"
 echo " /'___\ __         /\ \\"
@@ -83,9 +107,21 @@ echo "  \ \_\  \ \_\/\____/ \ \_\ \_\\"
 echo "   \/_/   \/_/\/___/   \/_/\/_/"
 set_color normal
 
+info creating all declared symlinks.
+for f in $DOTFILES/**/*.symlink
+    set -l dst ''
+    if test (basename "$f") = "config.symlink"
+        set dst $HOME/.config/(basename (dirname $f))
+    else
+        set dst $HOME/.(basename $f .symlink)
+    end
+    safelink $f $dst
+end
+success links created.
+
 set -Ux DOTFILES (dirname (pwd)/(status --current-file))
 
-# Run all the installers.
+info running each install.fish
 for install in $DOTFILES/**/install.fish
     info $install
     if fish $install
@@ -94,9 +130,11 @@ for install in $DOTFILES/**/install.fish
         fail $install
     end
 end
+success installation scripts completed.
 
 for f in $DOTFILES/**/functions
     set -p fish_function_path $f
 end
+
 set -p fish_function_path $__fish_config_dir/functions
-set fish_function_path (printf '%s\n' $fish_function_path | awk '!x[$0]++')
+set -U fish_function_path (printf '%s\n' $fish_function_path | awk '!x[$0]++')

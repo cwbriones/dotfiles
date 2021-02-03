@@ -6,30 +6,6 @@ bind \cj history-search-forward
 
 set -gx MANPATH "$HOME/.rustup/toolchains/stable-x86_64-apple-darwin/share/man/:"
 
-# function man -w man --description "wrap the 'man' manual page opener to use color in formatting"
-#   # based on this group of settings and explanation for them:
-#   # http://boredzo.org/blog/archives/2016-08-15/colorized-man-pages-understood-and-customized
-#   # converted to Fish shell syntax thanks to this page:
-#   # http://askubuntu.com/questions/522599/how-to-get-color-man-pages-under-fish-shell/650192
-#
-#   # start of bold:
-#   set -x LESS_TERMCAP_md (set_color --bold red)
-#   # end of all formatting:
-#   set -x LESS_TERMCAP_me (set_color normal)
-#
-#   # start of standout (inverted colors):
-#   set -x LESS_TERMCAP_so (set_color --reverse)
-#   # end of standout (inverted colors):
-#   set -x LESS_TERMCAP_se (set_color normal)
-#
-#   # start of underline:
-#   set -x LESS_TERMCAP_us (set_color --underline cyan)
-#   # end of underline:
-#   set -x LESS_TERMCAP_ue (set_color normal)
-#
-#   command man $argv
-# end
-
 # =========================================================
 # Prompt
 # =========================================================

@@ -12,10 +12,6 @@ abbr forecast 'curl http://wttr.in/98107'
 abbr moon 'curl http://wttr.in/Moon'
 abbr vi nvim
 
-abbr grep 'grep --color auto'
-abbr fgrep 'fgrep --color auto'
-abbr egrep 'egrep --color auto'
-
 set -Ux EDITOR 'nvim'
 set -Ux HOMEBREW_NO_ANALYTICS 1
 set -Ux NVIM_TUI_ENABLE_TRUE_COLOR 1
@@ -32,25 +28,25 @@ set -U virtualenv_wrapper_dir "$HOME/.venvs"
 
 ulimit -n 4096
 
-set -Up fish_user_paths /usr/local/bin\
+set -Up fish_user_paths /usr/local/bin \
     # Homebrew executables
     # The output of this (slow) command:
     # $(brew --prefix coreutils)/libexec/gnubin
     #
     # Disabled due to some mac command line tool collisions
     # /usr/local/opt/coreutils/libexec/gnubin
-    /usr/local/bin\
-    /usr/local/sbin\
+    /usr/local/bin \
+    /usr/local/sbin \
     # Standard locations
-    $DOTFILES/bin\
-    $HOME/bin\
-    $HOME/.local/bin\
+    $DOTFILES/bin \
+    $HOME/bin \
+    $HOME/.local/bin \
     # Rust executables
-    $HOME/.cargo/bin\
+    $HOME/.cargo/bin \
     # Go executables
-    $GOPATH/bin\
+    $GOPATH/bin \
     # JS executables
-    $HOME/.config/yarn/global/node_modules/.bin\
+    $HOME/.config/yarn/global/node_modules/.bin \
     # Python executables
     $HOME/.poetry/bin
 
