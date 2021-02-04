@@ -4,6 +4,9 @@
 bind \ck history-search-backward
 bind \cj history-search-forward
 
+bind ! bind_bang
+bind '$' bind_dollar
+
 set -gx MANPATH "$HOME/.rustup/toolchains/stable-x86_64-apple-darwin/share/man/:"
 
 # =========================================================
