@@ -1,6 +1,7 @@
-" Python specific settings
 set foldmethod=indent
 set foldlevel=99
+
+let python_highlight_all = 1
 
 " Running mypy
 setlocal makeprg=mypy-daemon
