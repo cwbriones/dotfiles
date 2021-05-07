@@ -25,7 +25,7 @@
     pu = pull
     co = checkout
     ci = commit
-    br = branch
+    br = !git branch --sort=committerdate --format='%(HEAD) %(color:yellow)%(objectname:short)%(color:reset) %(refname:short) (%(color:green)%(committerdate:relative)%(color:reset))'
     rb = rebase
     pk = cherry-pick
     stat = status -s
