@@ -37,7 +37,7 @@ if [ "$(basename "$SHELL")" = "fish" ]; then
     echo "✓ fish is already the default shell."
 else
     echo "setting fish as default shell."
-    chsh -s $(which fish)
+    chsh -s "$(which fish)"
     echo "✓ fish is now the default shell."
 fi
 
