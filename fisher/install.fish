@@ -6,7 +6,10 @@ end
 info installing all fisher plugins
 set plugins (dirname (status --current-file))/fisher_plugins
 for plugin in (cat $plugins)
-    fisher install $plugin
+    string match -vr '^#' $plugin
+    if test $status -eq 0
+        fisher install $plugin
+    end
 end
 
 # FIXME: need to patch tide here.
