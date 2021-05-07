@@ -19,10 +19,10 @@ funcsave fail
 function safelink -a src dst
     set -q overwrite_all || set overwrite_all "false"
     set -q backup_all || set backup_all "false"
-    set -q skip_all || set skip_all "false"
+    set -q skip || set skip "false"
 
     if test -f "$dst" -o -d "$dst" -o -L "$dst"
-        if test "$overwrite_all" = "false" -a "$backup_all" = "false" -a "$skip_all" = "false"
+        if test "$overwrite_all" = "false" -a "$backup_all" = "false" -a "$skip" = "false"
             set currentSrc "(readlink $dst)"
 
             if test "$currentSrc" = "$src"
@@ -45,14 +45,13 @@ function safelink -a src dst
                     case s
                         set skip true
                     case S
-                        set -g skip_all true
+                        set -g skip true
                 end
             end
         end
 
         set -q overwrite || set -l overwrite $overwrite_all
         set -q backup || set -l backup $backup_all
-        set -q skip || set -l skip $skip_all
 
         if test "$overwrite" = "true"
             rm -rf "$dst"

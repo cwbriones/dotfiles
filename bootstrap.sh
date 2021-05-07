@@ -6,19 +6,25 @@
 #
 set -euo pipefail
 
-if [ "$(uname)" == "Darwin" ]; then
-    echo "First things first - configuring macOS"
-    # bash "$(dirname $0)/mac.sh"
-    echo "✓ macOS is configured."
+case "$(uname)" in
+    "Darwin")
+        echo "First things first - configuring macOS"
+        # bash "$(dirname $0)/mac.sh"
+        echo "✓ macOS is configured."
 
-    if [ ! $(which brew) ]; then
-      echo "Installing Homebrew for you."
-      /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-    fi
-    echo "✓ brew is installed."
-else
-    echo "Not on macOS - skipping setup"
-fi
+        if [ ! $(which brew) ]; then
+          echo "Installing Homebrew for you."
+          /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+        fi
+        echo "✓ brew is installed."
+        ;;
+    "Linux")
+        bash "$(dirname $0)/linux.sh"
+        ;;
+    *)
+        echo "unknown uname: $(uname)"
+        ;;
+esac
 
 if [ ! $(which fish) ]; then
   echo "Installing fish for you."
