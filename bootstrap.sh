@@ -33,4 +33,12 @@ if [ ! $(which fish) ]; then
 fi
 echo "✓ Fish is installed."
 
+if [ "$(basename "$SHELL")" = "fish" ]; then
+    echo "✓ fish is already the default shell."
+else
+    echo "setting fish as default shell."
+    chsh -s $(which fish)
+    echo "✓ fish is now the default shell."
+fi
+
 exec fish "$(dirname $0)/bootstrap.fish"
