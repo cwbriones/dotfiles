@@ -40,15 +40,3 @@
 .Trashes
 ehtumbs.db
 Thumbs.db
-
-####################
-# Project Specific
-####################
-eclim
-init.vim
-.netrwhist
-
-####################
-# Created by plugins
-####################
-vim/vim.symlink/.ropeproject/
