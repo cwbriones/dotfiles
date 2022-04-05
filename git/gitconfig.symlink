@@ -6,7 +6,9 @@
     editor = nvim
     excludesfile = ~/.gitignore
     preloadIndex = true
-    pager = diff-so-fancy | less --tabs=4 -RFX
+	pager = diff-so-fancy | less --tabs=4 -RFX
+[interactive]
+    diffFilter = delta --color-only
 [merge]
     tool = fugitive
     ff = only
@@ -66,12 +68,18 @@
     fork-update = ! git fetch upstream master:master && git co master && git push && git co -
 
 [mergetool "fugitive"]
-    cmd = nvim -f -c \"Gvdiff\" \"$MERGED\"
+    cmd = nvim -f -c \"Gvdiffsplit!\" \"$MERGED\"
 [mergetool]
     keepBackup = false
     prompt = false
 [init]
-	templatedir = ~/.git-templates
+    templatedir = ~/.git-templates
+[delta]
+    # file-decoration-style = none
+    hunk-header-decoration-style = none
+    line-numbers = true
+    line-numbers-left-format="{nm:^4}"
+    line-numbers-right-format="{np:^4}"
 
 # Override defaults on this particular box
 [include]

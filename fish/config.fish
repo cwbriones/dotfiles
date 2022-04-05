@@ -8,6 +8,7 @@ bind ! bind_bang
 bind '$' bind_dollar
 
 set -gx MANPATH "$HOME/.rustup/toolchains/stable-x86_64-apple-darwin/share/man/:"
+set -x GIT_PAGER delta
 
 # =========================================================
 # Prompt

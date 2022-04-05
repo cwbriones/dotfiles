@@ -4,11 +4,22 @@
     },
     "languageserver" : {
         "go" : {
-            "command" : "$GOPATH/bin/gopls",
+            "command" : "$HOME/bin/gopls-wrapper.sh",
+            "args" : [
+                "-remote=auto",
+                "-remote.listen.timeout=5m",
+                "-logfile=auto",
+                "-debug=:0",
+                "-remote.debug=:0",
+                "-rpc.trace"
+            ],
             "rootPatterns" : ["go.mod", ".git"],
             "filetypes" : ["go"],
             "initializationOptions": {
-                "staticcheck" : true
+                "staticcheck" : true,
+                "analyses" : {
+                    "ST1003" : false
+                }
             },
             "analyzers.nonewvars" : true
         }
