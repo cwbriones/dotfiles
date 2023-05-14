@@ -1,6 +1,6 @@
 {
     "coc.preferences" : {
-        "formatOnSaveFiletypes" : []
+        "formatOnSaveFiletypes" : ["rust"]
     },
     "languageserver" : {
         "go" : {
@@ -18,11 +18,18 @@
         "warningSign" : "⚠︎"
     },
     "rust-analyzer.diagnostics.disabled" : [
-            "unresolved-proc-macro"
+        "unresolved-proc-macro"
     ],
-    "rust-analyzer.rustfmt.overrideCommand" : "cargo +nightly fmt",
+    "rust-analyzer.rustfmt.extraArgs" : [
+        "+nightly"
+    ],
+    "rust-analyzer.checkOnSave.overrideCommand" : [
+        "cargo",
+        "clippy",
+        "--message-format=json"
+    ],
     "rust-analyzer.updates.channel" : "stable",
     "suggest.detailMaxLength" : 60,
-    "python.pythonPath" : "/Users/cwbriones/.venvs/neovim/bin/python",
+    "python.linting.pylintEnabled" : false,
     "elixirLS.dialyzerEnabled": false
 }

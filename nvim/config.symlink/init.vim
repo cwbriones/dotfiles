@@ -8,6 +8,8 @@ let mapleader = ","
 
 let g:python3_host_prog = expand('~/.venvs/neovim/bin/python')
 let g:python_host_skip_check=1
+let g:vimsyn_embed = 'l'
+let g:vimsyn_noerror = 1
 
 " General Niceities
 Plug 'Yggdroot/indentLine'
@@ -23,7 +25,8 @@ Plug 'justinmk/vim-sneak'
 Plug 'mhinz/vim-startify'
 
 " Completion
-Plug 'neoclide/coc.nvim', {'branch' : 'release'}
+Plug 'neovim/nvim-lspconfig', {'tag': 'v0.1.6'}
+Plug 'lvimuser/lsp-inlayhints.nvim', {'tag': 'anticonceal'}
 Plug 'honza/vim-snippets'
 
 " Additional language support
@@ -39,11 +42,15 @@ Plug 'udalov/kotlin-vim'
 
 " Colorschemes
 Plug 'joshdick/onedark.vim'
-Plug 'chriskempson/base16-vim'
 Plug 'morhetz/gruvbox'
 Plug 'arcticicestudio/nord-vim'
+Plug 'sainnhe/sonokai'
+Plug 'chriskempson/base16-vim'
 
 call plug#end()
+
+let g:sonokai_style = 'andromeda'
+let g:gruvbox_constrast_dark="hard"
 
 " Python
 let python_highlight_all = 1
@@ -56,57 +63,50 @@ let g:go_def_mapping_enabled = 0
 let g:go_imports_autosave = 0
 let g:go_fmt_command = "gofmt"
 au FileType go nmap <leader>i :GoImports<cr>
+au BufRead,BufNewFile *.vue set filetype=html
+au BufRead,BufNewFile *.svelte set filetype=html
+
 
 "======================================================================
 " Completion
 "======================================================================
-" See https://github.com/neoclide/coc.nvim#example-vim-configuration
+lua require('completion')
 
 set cmdheight=2
 set updatetime=300
 set shortmess+=c
+
 " C-Space: summon autocompletion
-inoremap <silent><expr> <C-Space> coc#refresh()
+" inoremap <silent><expr> <C-Space> coc#refresh()
 " selection completion using tab
-inoremap <silent><expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
-inoremap <silent><expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
+" Use tab for trigger completion with characters ahead and navigate
+" NOTE: There's always complete item selected by default, you may want to enable
+" no select by `"suggest.noselect": true` in your configuration file
+" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" other plugin before putting this into your config
+" inoremap <silent><expr> <TAB>
+"       \ coc#pum#visible() ? coc#pum#next(1) :
+"       \ CheckBackspace() ? "\<Tab>" :
+"       \ coc#refresh()
+" inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+"
 " confirm completion with <cr>.
-if exists('*complete_info')
-  inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
-else
-  inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-endif
-nmap <silent> gD <Plug>(coc-declaration)
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
-nmap <silent> <leader>gt <Plug>(coc-type-definition)
-nmap <silent> <leader>r <Plug>(coc-rename)
-nmap <silent> <leader>a <Plug>(coc-codeaction)
-nmap <silent> <leader>f <Plug>(coc-fix-current)
+" Make <CR> to accept selected completion item or notify coc.nvim to format
+" <C-g>u breaks current undo, please make your own choice
+" inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
+"                               \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
-nmap [d <Plug>(coc-diagnostic-prev)
-nmap ]d <Plug>(coc-diagnostic-next)
+" nmap <silent> <leader>gt <Plug>(coc-type-definition)
+" nmap <silent> <leader>f <Plug>(coc-fix-current)
 
-nmap <C-K> <Plug>(coc-showSignatureHelp)
-nnoremap <silent> K :call <SID>show_documentation()<CR>
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  elseif coc#float#has_float()
-    call coc#float#close_all()
-  else
-    call CocAction('doHover')
-  endif
-endfunction
 
 " Highlight the symbol and its references when holding the cursor.
-autocmd CursorHold * silent call CocActionAsync('highlight')
-highlight link CocHighlightText IncSearch
-highlight Cursor guifg=white guibg=black
 
-au BufRead,BufNewFile *.vue set filetype=html
-au BufRead,BufNewFile *.svelte set filetype=html
+autocmd CursorHold  <buffer> lua vim.lsp.buf.document_highlight()
+autocmd CursorHoldI <buffer> lua vim.lsp.buf.document_highlight()
+autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
+
+highlight Cursor guifg=white guibg=black
 
 "======================================================================
 " Primary Settings
@@ -115,7 +115,9 @@ au BufRead,BufNewFile *.svelte set filetype=html
 set mouse=a
 
 " Limit syntax highlighting
-set synmaxcol=150
+set synmaxcol=140
+syntax sync minlines=256
+" set lazyredraw
 let g:matchparen_timeout = 2
 let g:matchparen_insert_timeout = 2
 
@@ -131,7 +133,7 @@ set bg=dark
 set splitright
 set splitbelow
 set title
-set cursorline
+
 set laststatus=2
 set foldenable
 set foldlevel=99
@@ -178,7 +180,6 @@ let g:indentLine_enabled=0
 let g:indentLine_setColors=1
 
 let fullcolor_colorscheme="gruvbox"
-let g:gruvbox_constrast_dark="hard"
 if has("Mac")
     let system_theme = trim(system('defaults read -g AppleInterfaceStyle'))
     if system_theme == 'Dark'
@@ -297,7 +298,8 @@ noremap <leader>P "+p
 
 noremap <leader>fi :lope<CR>
 noremap <leader>cc :set cursorline!<CR>
-noremap <leader>x :Explore<CR>
+noremap <leader>B :Buffers<CR>
+noremap <leader>x :NERDTreeToggle<CR>
 
 " See https://vim.fandom.com/wiki/Moving_lines_up_or_down#Mappings_to_move_lines
 " nnoremap <M-j> :m .+1<CR>==
@@ -306,6 +308,8 @@ noremap <leader>x :Explore<CR>
 " inoremap <M-k> <Esc>:m .-2<CR>==gi
 " vnoremap <M-j> :m '>+1<CR>gv=gv
 " vnoremap <M-k> :m '<-2<CR>gv=gv<Paste>
+
+command! BufOnly silent! execute "%bd|e#|bd#"
 
 command! -nargs=* Plain set wrap linebreak nolist showbreak=…
 vmap <D-j> gj
