@@ -40,3 +40,8 @@
 .Trashes
 ehtumbs.db
 Thumbs.db
+
+####################
+# History or cache
+####################
+nvim/config.symlink/.netrwhist
