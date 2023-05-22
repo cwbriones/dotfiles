@@ -17,6 +17,9 @@ bind-key m set-option mouse\; display-message "Mouse: #{?mouse,ENABLED,DISABLED}
 
 set-option -g status-position top
 
+# make all new windows open in the current directory
+bind c new-window -c "#{pane_current_path}"
+
 # bindings for splits
 bind | split-window -h
 bind - split-window -v

@@ -5,11 +5,11 @@
 # Making myself at home.
 
 # Make the dock autohide but re-appear very quickly
-defaults write com.apple.dock autohide-delay -int 1
-defaults write com.apple.dock autohide-time-modifier -float 0.4
+defaults write com.apple.Dock autohide-delay -float 0.01
+defaults write com.apple.Dock autohide-time-modifier -float 0.4
 
 # Re-enable the startup chime
-sudo nvram BootAudio=%01
+# sudo nvram BootAudio=%01
 
 # Fast key repeat speed
 defaults write NSGlobalDomain KeyRepeat -int 1
@@ -67,7 +67,7 @@ defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
 defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
 
 # Disable “natural” (Lion-style) scrolling
-defaults write NSGlobalDomain com.apple.swipescrolldirection -bool false
+# defaults write NSGlobalDomain com.apple.swipescrolldirection -bool false
 
 # Disable press-and-hold for keys in favor of key repeat
 defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
@@ -98,8 +98,8 @@ defaults write com.apple.ActivityMonitor SortColumn -string "CPUUsage"
 defaults write com.apple.ActivityMonitor SortDirection -int 0
 
 # Enable the debug menu in Disk Utility
-defaults write com.apple.DiskUtility DUDebugMenuEnabled -bool true
-defaults write com.apple.DiskUtility advanced-image-options -bool true
+# defaults write com.apple.DiskUtility DUDebugMenuEnabled -bool true
+# defaults write com.apple.DiskUtility advanced-image-options -bool true
 
 ###############################################################################
 # Google Chrome & Google Chrome Canary                                        #

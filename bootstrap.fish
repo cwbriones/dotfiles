@@ -104,9 +104,10 @@ set_color normal
 
 set -Ux DOTFILES (dirname (pwd)/(status --current-file))
 
+# TODO: Exclude linking and installation when running in gh codespaces
+
 info creating all declared symlinks.
 for f in $DOTFILES/**/*.symlink
-    # TODO: Exclude linking nocodespaces as well
     set -l dst ''
     if test (basename "$f") = "config.symlink"
         set dst $HOME/.config/(basename (dirname $f))
@@ -120,10 +121,6 @@ success links created.
 
 info running each install.fish
 for install in $DOTFILES/**/install.fish
-    if test -e (dirname $install)/nocodespaces -a $CODESPACES = "true"
-        info "skipping $install: marked as nocodespaces"
-        continue
-    end
     info $install
     if fish $install
         success $install
@@ -134,10 +131,6 @@ end
 success installation scripts completed.
 
 for f in $DOTFILES/**/functions
-    if test -e (dirname $f)/nocodespaces -a $CODESPACES = "true"
-        info "skipping functions $f: marked as nocodespaces"
-        continue
-    end
     set -p fish_function_path $f
 end
 

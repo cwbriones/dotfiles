@@ -30,8 +30,8 @@ window:
   # must be at least `2`, while using a value of `0` for columns and lines will
   # fall back to the window manager's recommended size.
   dimensions:
-    columns: 80
-    lines: 24
+    columns: 100
+    lines: 30
 
   # Window position (changes require restart)
   #
@@ -39,12 +39,7 @@ window:
   # If the position is not set, the window manager will handle the placement.
   #position:
   #  x: 0
-  #  y: 0
-
-  # Window padding (changes require restart)
-  #
-  # Blank space added around the window in pixels. This padding is scaled
-  # by DPI and the specified value is always added at both opposing sides.
+  # decorations=transparent
   padding:
     x: 10
     y: 10
@@ -80,6 +75,11 @@ window:
   # Allow terminal applications to change Alacritty's window title.
   dynamic_title: true
 
+
+  # Window opacity as a floating point number from `0.0` to `1.0`.
+  # The value `0.0` is completely transparent and `1.0` is opaque.
+  opacity: 1
+
 scrolling:
   # Maximum number of lines in the scrollback buffer.
   # Specifying '0' will disable scrolling.
@@ -98,7 +98,7 @@ font:
     #   - (macOS) Menlo
     #   - (Linux/BSD) monospace
     #   - (Windows) Consolas
-    family: Inconsolata for Powerline
+    family: Inconsolata Nerd Font
     # family: Droid Sans Mono
 
     # The `style` can be specified to pick a specific face.
@@ -323,6 +323,30 @@ themes:
 
     dim:
       white:   '#ff0000'
+  sonokai: &sonokai
+    primary:
+      background: "0x2b2d3a"
+      foreground: "0xe1e3e4"
+
+    normal:
+      black: "0x181a1c"
+      red: "0xfb617e"
+      green: "0x9ed06c"
+      yellow: "0xedc763"
+      blue: "0x6dcae8"
+      magenta: "0xbb97ee"
+      cyan: "0xf89860"
+      white: "0xe1e3e4"
+
+    bright:
+      black: "0x7e8294"
+      red: "0xfb617e"
+      green: "0x9ed06c"
+      yellow: "0xedc763"
+      blue: "0x6dcae8"
+      magenta: "0xbb97ee"
+      cyan: "0xf89860"
+      white: "0xe1e3e4"
 
 # Colors (Tomorrow Night)
 colors:
@@ -485,12 +509,6 @@ bell:
   #
   #command: None
 
-# Background opacity
-#
-# Window opacity as a floating point number from `0.0` to `1.0`.
-# The value `0.0` is completely transparent and `1.0` is opaque.
-background_opacity: 1.0
-
 #selection:
   # This string contains all characters that are used as separators for
   # "semantic words" in Alacritty.
@@ -552,7 +570,7 @@ live_config_reload: true
 #   - (Linux/BSD) user login shell
 #   - (Windows) powershell
 shell:
-  program: /usr/local/bin/fish
+  program: /opt/homebrew/bin/fish
   args:
     - --login
 

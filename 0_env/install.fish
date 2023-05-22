@@ -12,8 +12,9 @@ abbr moon 'curl http://wttr.in/Moon'
 set -Ux EDITOR 'nvim'
 set -Ux HOMEBREW_NO_ANALYTICS 1
 set -Ux NVIM_TUI_ENABLE_TRUE_COLOR 1
-set -Ux DEP_OPENSSL_INCLUDE /usr/local/opt/openssl/include
-set -Ux OPENSSL_INCLUDE_DIR /usr/local/opt/openssl/include
+# Disabled for now but with updated homebrew paths.
+# set -Ux DEP_OPENSSL_INCLUDE /opt/homebrew/opt/openssl/include
+# set -Ux OPENSSL_INCLUDE_DIR /opt/homebrew/opt/openssl/include
 set -Ux PYTHONDONTWRITEBYTECODE 1
 set -Ux VIRTUAL_ENV_DISABLE_PROMPT 1
 set -Ux PROMPT_EOL_MARK ""
@@ -32,8 +33,7 @@ set -Up fish_user_paths /usr/local/bin \
     #
     # Disabled due to some mac command line tool collisions
     # /usr/local/opt/coreutils/libexec/gnubin
-    /usr/local/bin \
-    /usr/local/sbin \
+    /opt/homebrew/bin \
     # Standard locations
     $DOTFILES/bin \
     $HOME/bin \
